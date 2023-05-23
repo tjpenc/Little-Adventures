@@ -1,0 +1,41 @@
+{
+  "-MiBsBKGWFEU-yluJaq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJaq-",
+    "uid": "",
+    "title": "Waterfall",
+    "details": "Adventure 1 details",
+    "intensity": "easy",
+    "imageUrl": "",
+    "rating": "2",
+    "isPublic": "true",
+    "isCompleted": "true",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  },
+  "-MiBsBKGWFEU-yluJbq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJbq-",
+    "uid": "",
+    "title": "Caves",
+    "details": "Adventure 2 details",
+    "intensity": "medium",
+    "imageUrl": "",
+    "rating": "4",
+    "isPublic": "true",
+    "isCompleted": "false",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  },
+  "-MiBsBKGWFEU-yluJcq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJcq-",
+    "uid": "",
+    "title": "Mountains",
+    "details": "Adventure 3 details",
+    "intensity": "hard",
+    "imageUrl": "",
+    "rating": "5",
+    "isPublic": "false",
+    "isCompleted": "false",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  }
+}
