@@ -1,0 +1,62 @@
+{
+  "-MiBsBKGWFEU-yluJdq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJdq-",
+    "uid": "",
+    "adventureId": "-MiBsBKGWFEU-yluJaq-",
+    "adventureTitle": "Waterfall",
+    "name": "Frog",
+    "type": "Fauna",
+    "details": "This is an froge",
+    "imageUrl": "",
+    "rating": "4",
+    "isPublic": "true",
+    "isCompleted": "true",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  },
+  "-MiBsBKGWFEU-yluJeq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJeq-",
+    "uid": "",
+    "adventureId": "-MiBsBKGWFEU-yluJaq-",
+    "adventureTitle": "Waterfall",
+    "name": "Moss",
+    "type": "Flora",
+    "details": "This is an moss",
+    "imageUrl": "",
+    "rating": "5",
+    "isPublic": "true",
+    "isCompleted": "true",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  },
+  "-MiBsBKGWFEU-yluJfq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJfq-",
+    "uid": "",
+    "adventureId": "-MiBsBKGWFEU-yluJbq-",
+    "adventureTitle": "Caves",
+    "name": "Bigfoot",
+    "type": "Spooky",
+    "details": "Yikes we saw him",
+    "imageUrl": "",
+    "rating": "0",
+    "isPublic": "true",
+    "isCompleted": "true",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  },
+  "-MiBsBKGWFEU-yluJgq-": {
+    "firebaseKey": "-MiBsBKGWFEU-yluJgq-",
+    "uid": "",
+    "adventureId": "-MiBsBKGWFEU-yluJcq-",
+    "adventureTitle": "Mountains",
+    "name": "Big Mountain",
+    "type": "Landmark",
+    "details": "Really tall mountain wow",
+    "imageUrl": "",
+    "rating": "5",
+    "isPublic": "true",
+    "isCompleted": "true",
+    "timeSubmitted": "",
+    "parentAdventureId": ""
+  }
+}
