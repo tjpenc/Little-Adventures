@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
 import {
   Navbar, Container, Nav, Button,
 } from 'react-bootstrap';
@@ -11,7 +12,7 @@ export default function NavBarAuth() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/">
-          <Navbar.Brand>CHANGE ME</Navbar.Brand>
+          <Navbar.Brand>Little Adventures</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -24,6 +25,13 @@ export default function NavBarAuth() {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <Practice>Hello</Practice>
     </Navbar>
   );
 }
+
+const Practice = styled.div`
+  display: flex;
+  position: fixed;
+  color: white;
+`;
