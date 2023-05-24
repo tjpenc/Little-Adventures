@@ -18,7 +18,7 @@ export default function NavBarAuth() {
     <NavContainer open={isOpen}>
       {isOpen ? (
         <>
-          <LogoContainer>Logo</LogoContainer>
+          <LogoContainer>Little Adventures</LogoContainer>
           <CloseNavContainer>
             <button type="button" onClick={toggleNav}>Close</button>
           </CloseNavContainer>
@@ -27,28 +27,28 @@ export default function NavBarAuth() {
             <Link href="/" passHref>
               <NavLink>My Profile</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/adventures/personal/myAdventures" passHref>
               <NavLink>My Adventures</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/adventures/personal/createAdventure" passHref>
               <NavLink>Create an Adventure</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/discoveries/personal/myDiscoveries" passHref>
               <NavLink>My Discoveries</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/discoveries/personal/createDiscovery" passHref>
               <NavLink>Create a Discovery</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/randomAdventure" passHref>
               <NavLink>Find an Adventure</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/toExplore/toBeExplored" passHref>
               <NavLink>To Be Explored</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/adventures/public/publicAdventures" passHref>
               <NavLink>All Adventures</NavLink>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/discoveries/public/publicDiscoveries" passHref>
               <NavLink>All Discoveries</NavLink>
             </Link>
           </LinksContainer>
@@ -92,9 +92,11 @@ const UserInfoContainer = styled.div`
 
 const LinksContainer = styled.div`
   margin: 10px;
+  overflow-x: hidden;
 `;
 
-const NavLink = styled.div`
+const NavLink = styled.a`
+  display: block;
     &:hover {
     background-color: #ccc;
     color: black;
