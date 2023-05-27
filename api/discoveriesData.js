@@ -16,6 +16,13 @@ const getSingleUserDiscovery = (firebaseKey) => new Promise((resolve, reject) =>
     .catch(reject);
 });
 
+const getAllDiscoveries = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/discoveries.json`)
+    .then((response) => (response.data))
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
 const deleteSingleDiscovery = (firebaseKey) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/discoveries/${firebaseKey}.json`)
     .then((response) => (response.data))
@@ -24,5 +31,5 @@ const deleteSingleDiscovery = (firebaseKey) => new Promise((resolve, reject) => 
 });
 
 export {
-  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery,
+  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery, getAllDiscoveries,
 };
