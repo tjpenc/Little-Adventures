@@ -18,5 +18,10 @@ export default function ViewSingleDiscovery() {
     getSingleUserDiscovery(firebaseKey).then(setDiscovery);
   }, [firebaseKey]);
 
-  return <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
+  return (
+    <>
+      <h1>{discovery.name} from {discovery.adventureTitle}</h1>
+      <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
+    </>
+  );
 }
