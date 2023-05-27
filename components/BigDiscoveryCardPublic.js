@@ -2,30 +2,22 @@ import { PropTypes } from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { deleteSingleDiscovery } from '../api/discoveriesData';
 
-export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
-
+export default function BigDiscoveryCardPublic({ discoveryObj }) {
   return (
     <>
       <BigDiscoveryCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
+          <AddToExploreContainer><div>+</div></AddToExploreContainer>
           <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
           <Card.Body>
             <Card.Title>{discoveryObj.name}</Card.Title>
             <Card.Text>{discoveryObj.type}</Card.Text>
             <Card.Text>{discoveryObj.details}</Card.Text>
             <Card.Text>{discoveryObj.rating}</Card.Text>
-            <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
+            <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>
               <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
             </Link>
-            <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-              <Button variant="info">EDIT</Button>
-            </Link>
-            <Button variant="danger" onClick={deleteThisDiscovery} className="m-2">
-              DELETE
-            </Button>
           </Card.Body>
         </Card>
       </BigDiscoveryCardContainer>
@@ -33,7 +25,7 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   );
 }
 
-BigDiscoveryCard.propTypes = {
+BigDiscoveryCardPublic.propTypes = {
   discoveryObj: PropTypes.shape({
     adventureId: PropTypes.string,
     adventureTitle: PropTypes.string,
@@ -49,10 +41,9 @@ BigDiscoveryCard.propTypes = {
     isPublic: PropTypes.string,
     rating: PropTypes.string,
   }),
-  onUpdate: PropTypes.func.isRequired,
 };
 
-BigDiscoveryCard.defaultProps = {
+BigDiscoveryCardPublic.defaultProps = {
   discoveryObj: {
     adventureId: 'Adventure Id',
     adventureTitle: 'Adventure Title',
@@ -69,6 +60,9 @@ BigDiscoveryCard.defaultProps = {
     rating: 3,
   },
 };
+
+const AddToExploreContainer = styled.div`
+`;
 
 const BigDiscoveryCardContainer = styled.div`
   width: 500px;
