@@ -1,4 +1,5 @@
 import { Card, Button } from 'react-bootstrap';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { useAuth } from '../utils/context/authContext';
 import DiscoveriesButton from '../components/buttons/DiscoveriesButton';
@@ -10,10 +11,18 @@ function Home() {
   return (
     <>
       <NavigationButtonContainers>
-        <Button>Explore Adventures</Button>
-        <Button>Explore Discoveries</Button>
-        <Button>Find an Adventure</Button>
-        <Button>To Be Explored</Button>
+        <Link href="/adventures/public/publicAdventures" passHref>
+          <Button variant="primary" className="m-2">Explore Advenutres</Button>
+        </Link>
+        <Link href="/discoveries/public/publicDiscoveries" passHref>
+          <Button variant="primary" className="m-2">Explore Discoveries</Button>
+        </Link>
+        <Link href="/randomAdventure" passHref>
+          <Button variant="primary" className="m-2">Find an Adventure</Button>
+        </Link>
+        <Link href="/toExplore/toBeExplored" passHref>
+          <Button variant="primary" className="m-2">To Be Explored</Button>
+        </Link>
       </NavigationButtonContainers>
       <div
         className="text-center d-flex flex-column justify-content-center align-content-center"
