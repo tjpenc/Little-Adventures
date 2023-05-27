@@ -6,7 +6,6 @@ import AdventuresButton from '../components/buttons/AdventuresButton';
 
 function Home() {
   const { user } = useAuth();
-  console.warn(user);
 
   return (
     <>
@@ -25,7 +24,7 @@ function Home() {
           margin: '0 auto',
         }}
       >
-        <h1>Hello {user.displayName}! </h1>
+        <h1>Hello {user.uid}! </h1>
         <Card.Img
           style={{
             height: '50px',
