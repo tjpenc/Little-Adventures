@@ -60,6 +60,7 @@ export default function NavBarAuth() {
 }
 
 const NavContainer = styled.div`
+  font-size: 15px;
   color: white;
   left: 0;
   height: 100vh;

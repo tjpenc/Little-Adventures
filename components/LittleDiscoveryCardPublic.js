@@ -26,14 +26,13 @@ export default function LittleDiscoveryCardPublic({ discoveryObj }) {
 LittleDiscoveryCardPublic.propTypes = {
   discoveryObj: PropTypes.shape({
     adventureId: PropTypes.string,
-    adventureTitle: PropTypes.string,
     details: PropTypes.string,
     firebaseKey: PropTypes.string,
     imageUrl: PropTypes.string,
-    isComplete: PropTypes.bool,
+    toBeDiscovered: PropTypes.bool,
     isPublic: PropTypes.bool,
     name: PropTypes.string,
-    parentAdventureId: PropTypes.string,
+    parentDiscoveryId: PropTypes.string,
     timeSubmitted: PropTypes.string,
     type: PropTypes.string,
     uid: PropTypes.string,
@@ -44,14 +43,13 @@ LittleDiscoveryCardPublic.propTypes = {
 LittleDiscoveryCardPublic.defaultProps = {
   discoveryObj: {
     adventureId: 'Adventure Id',
-    adventureTitle: 'Adventure Title',
     details: 'Adventure Details',
     firebaseKey: 'Firebase Key',
     imageUrl: 'Image',
-    isComplete: true,
+    toBeDiscovered: true,
     isPublic: false,
     name: 'Adventure Name',
-    parentAdventureId: 'Parent Adventure Id',
+    parentDiscoveryId: 'Parent Discovery Id',
     timeSubmitted: 'Time Submitted',
     type: 'Flora',
     uid: 'UID',
