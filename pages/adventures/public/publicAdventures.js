@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllAdventures } from '../../../api/adventuresData';
-import LittleAdventureCard from '../../../components/LittleAdventureCard';
+import LittleAdventureCard from '../../../components/personal_components/LittleAdventureCard';
 
 // view all public adventures
 export default function ViewPublicAdventures() {
@@ -17,7 +17,7 @@ export default function ViewPublicAdventures() {
 
   return (
     <>
-      {adventures.map((adventure) => (
+      {adventures?.map((adventure) => (
         <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} />
       ))}
     </>

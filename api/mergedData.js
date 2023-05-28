@@ -10,4 +10,11 @@ const getAdventureFromDiscovery = (adventureId) => new Promise((resolve, reject)
     .catch(reject);
 });
 
-export default getAdventureFromDiscovery;
+const getDiscoveriesFromAdventure = (firebaseKey) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/discoveries.json?orderBy="adventureId"&equalTo="${firebaseKey}"`)
+    .then((response) => response.data)
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
+export { getAdventureFromDiscovery, getDiscoveriesFromAdventure };

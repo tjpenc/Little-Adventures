@@ -10,7 +10,7 @@ const getUserAdventures = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSingleUserAdventure = (firebaseKey) => new Promise((resolve, reject) => {
+const getSingleAdventure = (firebaseKey) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/adventures/${firebaseKey}.json`)
     .then((response) => (resolve(response.data)))
     .catch(reject);
@@ -31,5 +31,5 @@ const deleteSingleAdventure = (firebaseKey) => new Promise((resolve, reject) => 
 });
 
 export {
-  getUserAdventures, getSingleUserAdventure, deleteSingleAdventure, getAllAdventures,
+  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures,
 };

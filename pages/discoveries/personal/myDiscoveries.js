@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import LittleDiscoveryCard from '../../../components/LittleDiscoveryCard';
+import LittleDiscoveryCard from '../../../components/personal_components/LittleDiscoveryCard';
 import { getUserDiscoveries } from '../../../api/discoveriesData';
 import { useAuth } from '../../../utils/context/authContext';
 
