@@ -3,10 +3,10 @@ import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
-import { useAuth } from '../utils/context/authContext';
-import { deleteSingleAdventure } from '../api/adventuresData';
+import { useAuth } from '../../utils/context/authContext';
+import { deleteSingleAdventure } from '../../api/adventuresData';
 
-export default function LittleAdventureCard({ adventureObj, onUpdate }) {
+export default function LittleAdventureCardPublic({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
   const { user } = useAuth();
 
@@ -30,6 +30,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
           <ul>
             <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
             <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
+            <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
           </ul>
         </OptionsMenu>
       ) : ''}
@@ -37,7 +38,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   );
 }
 
-LittleAdventureCard.propTypes = {
+LittleAdventureCardPublic.propTypes = {
   adventureObj: PropTypes.shape({
     details: PropTypes.string,
     firebaseKey: PropTypes.string,
@@ -54,7 +55,7 @@ LittleAdventureCard.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-LittleAdventureCard.defaultProps = {
+LittleAdventureCardPublic.defaultProps = {
   adventureObj: {
     details: 'Adventure Details',
     firebaseKey: 'FirebaseKey',

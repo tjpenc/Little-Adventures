@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getSingleUserDiscovery } from '../../../api/discoveriesData';
-import BigDiscoveryCard from '../../../components/BigDIscoveryCard';
-import getAdventureFromDiscovery from '../../../api/mergedData';
+import BigDiscoveryCard from '../../../components/personal_components/BigDIscoveryCard';
+import { getAdventureFromDiscovery } from '../../../api/mergedData';
 
 // view single discovery form
 export default function ViewSingleDiscovery() {

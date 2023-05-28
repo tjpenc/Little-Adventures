@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import LittleAdventureCard from '../../../components/LittleAdventureCard';
+import LittleAdventureCard from '../../../components/personal_components/LittleAdventureCard';
 import { getUserAdventures } from '../../../api/adventuresData';
 import { useAuth } from '../../../utils/context/authContext';
 
@@ -20,7 +20,7 @@ export default function ViewMyAdventures() {
       <h1>My Adventures</h1>
       <AdventureJournalContainer>
         <AdventuresContainer>
-          {adventures.map((adventure) => (
+          {adventures?.map((adventure) => (
             <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} onUpdate={getAllUsersAdventures} />
           ))}
         </AdventuresContainer>

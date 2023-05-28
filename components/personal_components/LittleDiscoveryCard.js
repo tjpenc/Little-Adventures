@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { deleteSingleDiscovery } from '../api/discoveriesData';
+import { deleteSingleDiscovery } from '../../api/discoveriesData';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
