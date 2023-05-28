@@ -8,7 +8,7 @@ export default function ViewPublicDiscoveries() {
   const [discoveries, setDiscoveries] = useState([]);
 
   const getPublicDiscoveries = () => getAllDiscoveries().then((discoveriesArray) => {
-    const publicDiscoveries = discoveriesArray.filter((discovery) => discovery.isPublic === 'true');
+    const publicDiscoveries = discoveriesArray.filter((discovery) => discovery.isPublic === true);
     setDiscoveries(publicDiscoveries);
   });
 

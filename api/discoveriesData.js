@@ -30,6 +30,15 @@ const deleteSingleDiscovery = (firebaseKey) => new Promise((resolve, reject) => 
     .catch(reject);
 });
 
+const createDiscovery = (payload) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/discoveries.json`, payload)
+    .then((response) => {
+      const patchPayload = { firebaseKey: response.data.name };
+      axios.patch(`${dbUrl}/discoveries/${response.data.name}.json`, patchPayload)
+        .then(resolve);
+    }).catch(reject);
+});
+
 export {
-  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery, getAllDiscoveries,
+  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery, getAllDiscoveries, createDiscovery,
 };
