@@ -16,4 +16,20 @@ const getSingleUserAdventure = (firebaseKey) => new Promise((resolve, reject) =>
     .catch(reject);
 });
 
-export { getUserAdventures, getSingleUserAdventure };
+const getAllAdventures = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/adventures.json`)
+    .then((response) => (response.data))
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
+const deleteSingleAdventure = (firebaseKey) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/adventures/${firebaseKey}.json`)
+    .then((response) => (response.data))
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+export {
+  getUserAdventures, getSingleUserAdventure, deleteSingleAdventure, getAllAdventures,
+};

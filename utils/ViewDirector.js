@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { useAuth } from './context/authContext';
 import Loading from '../components/Loading';
 import Signin from '../components/Signin';
@@ -15,12 +16,14 @@ const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) 
   // what the user should see if they are logged in
   if (user) {
     return (
-      <>
-        <NavBarAuth />
-        <div className="container">
+      <AppContainer>
+        <NavContainer>
+          <NavBarAuth />
+        </NavContainer>
+        <ContentContainer>
           <Component {...pageProps} />
-        </div>
-      </>
+        </ContentContainer>
+      </AppContainer>
     );
   }
 
@@ -33,3 +36,16 @@ ViewDirectorBasedOnUserAuthStatus.propTypes = {
   component: PropTypes.func.isRequired,
   pageProps: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
+
+const AppContainer = styled.div`
+ display: flex;
+`;
+
+const NavContainer = styled.div`
+  z-index: 1;
+  width: 170px;
+`;
+
+const ContentContainer = styled.div`
+  flex-grow: 1;
+`;
