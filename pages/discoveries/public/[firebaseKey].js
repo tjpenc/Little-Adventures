@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getSingleUserDiscovery } from '../../../api/discoveriesData';
-import BigDiscoveryCardPublic from '../../../components/BigDiscoveryCardPublic';
+import BigDiscoveryCardPublic from '../../../components/public_components/BigDiscoveryCardPublic';
 
 export default function ViewSinglePublicDiscovery() {
   const [discovery, setDiscovery] = useState({});

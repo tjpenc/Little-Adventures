@@ -30,7 +30,7 @@ export default function ViewSingleDiscovery() {
 
   return (
     <>
-      <h1>{discovery.name} from {adventure[0].title}</h1>
+      <h1>{discovery.name} from {adventure[0]?.title}</h1>
       {console.warn(adventure)}
       <Link href="/discoveries/personal/myDiscoveries" passHref>
         <Button variant="info">Return to My Discoveries</Button>
