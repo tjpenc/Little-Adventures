@@ -1,35 +1,31 @@
 // Create and Edit adventure form
 // Create and Edit discovery form
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, FloatingLabel, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
-import { createDiscovery } from '../../api/discoveriesData';
-import { getUserAdventures } from '../../api/adventuresData';
+import { createAdventure } from '../../api/adventuresData';
 
 const initialState = {
-  adventureId: '',
   details: '',
   firebaseKey: '',
   imageUrl: '',
-  name: '',
-  type: '',
-  toBeDiscovered: false,
+  intensity: '',
+  toBeCompleted: false,
   isPublic: false,
+  parentAdventureId: '',
   rating: 0,
+  timeSubmitted: '',
+  title: '',
+  uid: '',
 };
 
 export default function AdventureForm() {
   const [formInput, setFormInput] = useState(initialState);
-  const [adventures, setAdventures] = useState([]);
   const { user } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    getUserAdventures(user.uid).then(setAdventures);
-  }, [user.uid]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,27 +38,27 @@ export default function AdventureForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
-    createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+    createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
   };
 
   return (
     <FormInputContainer>
       <Form onSubmit={handleSubmit}>
-        <FloatingLabel controlId="floatingInput1" label="Discovery Name" className="mb-3">
+        <FloatingLabel controlId="floatingInput1" label="Adventure Title" className="mb-3">
           <Form.Control
             type="text"
-            placeholder="Discovery Name"
-            name="name"
-            value={formInput.name}
+            placeholder="Title"
+            name="title"
+            value={formInput.title}
             onChange={handleChange}
             required
           />
         </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput1" label="Description" className="mb-3">
+        <FloatingLabel controlId="floatingInput1" label="Adventure Details" className="mb-3">
           <Form.Control
             type="text"
-            placeholder="Discovery Name"
+            placeholder="Adventure Details"
             name="details"
             value={formInput.details}
             onChange={handleChange}
@@ -73,51 +69,26 @@ export default function AdventureForm() {
         <FloatingLabel controlId="floatingInput1" label="Image" className="mb-3">
           <Form.Control
             type="text"
-            placeholder="Discovery Name"
+            placeholder="Image"
             name="imageUrl"
             value={formInput.imageUrl}
             onChange={handleChange}
           />
         </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput1" label="Type" className="mb-3">
+        <FloatingLabel controlId="floatingInput1" label="Intensity" className="mb-3">
           <Form.Select
             type="text"
-            placeholder="Discovery Name"
-            name="type"
-            value={formInput.type}
+            placeholder="Intensity"
+            name="intensity"
+            value={formInput.intensity}
             onChange={handleChange}
             required
           >
             <option>Select a Type</option>
-            <option value="flora">Flora</option>
-            <option value="fauna">Fauna</option>
-            <option value="landmark">Landmark</option>
-            <option value="cryptid">Cryptid</option>
-          </Form.Select>
-        </FloatingLabel>
-
-        <FloatingLabel controlId="floatingSelect" label="Adventure">
-          <Form.Select
-            aria-label="Adventure"
-            name="adventureId"
-            onChange={handleChange}
-            className="mb-3"
-            value={formInput.adventureId}
-            required
-          >
-            <option value="">Select an Adventure</option>
-            <option value="none">None</option>
-            {
-              adventures.map((adventure) => (
-                <option
-                  key={adventure.firebaseKey}
-                  value={adventure.firebaseKey}
-                >
-                  {adventure.title}
-                </option>
-              ))
-            }
+            <option value="flora">Easy</option>
+            <option value="fauna">Medium</option>
+            <option value="landmark">Hard</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -157,18 +128,18 @@ export default function AdventureForm() {
             />
           </FloatingLabel>
 
-          <FloatingLabel controlId="floatingInput1" label="To Be Discovered?" className="mb-3">
+          <FloatingLabel controlId="floatingInput1" label="To Be Completed?" className="mb-3">
             <Form.Check
               className="text-white mb-3"
               type="switch"
-              id="toBeDiscovered"
-              name="toBeDiscovered"
-              label="To Be Discovered?"
-              checked={formInput.toBeDiscovered}
+              id="toBeCompleted"
+              name="toBeCompleted"
+              label="To Be Completed?"
+              checked={formInput.toBeCompleted}
               onChange={(e) => {
                 setFormInput((prevState) => ({
                   ...prevState,
-                  isDiscovered: e.target.checked,
+                  toBeCompleted: e.target.checked,
                 }));
               }}
             />
@@ -176,9 +147,9 @@ export default function AdventureForm() {
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
-          <Button type="submit">Submit and View Discoveries</Button>
-          <Button type="submit">Add Another Discovery!</Button>
-          <Link href="/discoveries/personal/myDiscoveries" passHref>
+          <Button type="submit">Submit and View Adventures</Button>
+          <Button type="submit">Add Some Discoveries!</Button>
+          <Link href="/adventures/personal/myAdventures" passHref>
             <Button>Cancel</Button>
           </Link>
         </SubmitButtonContainer>

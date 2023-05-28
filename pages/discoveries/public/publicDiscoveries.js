@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAllDiscoveries } from '../../../api/discoveriesData';
-import LittleDiscoveryCardPublic from '../../../components/LittleDiscoveryCardPublic';
+import LittleDiscoveryCardPublic from '../../../components/public_components/LittleDiscoveryCardPublic';
 
 export default function ViewPublicDiscoveries() {
   const [discoveries, setDiscoveries] = useState([]);

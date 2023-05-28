@@ -30,6 +30,15 @@ const deleteSingleAdventure = (firebaseKey) => new Promise((resolve, reject) => 
     .catch(reject);
 });
 
+const createAdventure = (payload) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/adventures.json`, payload)
+    .then((response) => {
+      const patchPayload = { firebaseKey: response.data.name };
+      axios.patch(`${dbUrl}/adventures/${response.data.name}.json`, patchPayload)
+        .then(resolve);
+    }).catch(reject);
+});
+
 export {
-  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures,
+  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures, createAdventure,
 };
