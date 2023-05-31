@@ -4,12 +4,12 @@ import AdventureForm from '../../../components/forms/AdventureForm';
 
 export default function CreateAdventure() {
   return (
-    <AddDiscoveryContainer>
+    <AddAdventureContainer>
       <h1>Create An Adventure</h1>
       <AdventureForm />
-    </AddDiscoveryContainer>
+    </AddAdventureContainer>
   );
 }
 
-const AddDiscoveryContainer = styled.div`
+const AddAdventureContainer = styled.div`
 `;

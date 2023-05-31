@@ -1,12 +1,11 @@
-// Create and Edit adventure form
-// Create and Edit discovery form
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Form, FloatingLabel, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
-import { createAdventure } from '../../api/adventuresData';
+import { createAdventure, updateAdventure } from '../../api/adventuresData';
 
 const initialState = {
   details: '',
@@ -22,10 +21,14 @@ const initialState = {
   uid: '',
 };
 
-export default function AdventureForm() {
+export default function AdventureForm({ adventureObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const { user } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (adventureObj) setFormInput(adventureObj);
+  }, [adventureObj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,8 +40,12 @@ export default function AdventureForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
-    createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
+    if (adventureObj) {
+      updateAdventure(formInput).then(() => router.push(`/adventures/personal/${adventureObj.firebaseKey}`));
+    } else {
+      const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
+      createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
+    }
   };
 
   return (
@@ -148,7 +155,7 @@ export default function AdventureForm() {
 
         <SubmitButtonContainer>
           <Button type="submit">Submit and View Adventures</Button>
-          <Button type="submit">Add Some Discoveries!</Button>
+          {/* {!adventureObj ? <Button type="submit">Add Some Discoveries!</Button> : ''} */}
           <Link href="/adventures/personal/myAdventures" passHref>
             <Button>Cancel</Button>
           </Link>
@@ -157,6 +164,38 @@ export default function AdventureForm() {
     </FormInputContainer>
   );
 }
+
+AdventureForm.propTypes = {
+  adventureObj: PropTypes.shape({
+    details: PropTypes.string,
+    firebaseKey: PropTypes.string,
+    imageUrl: PropTypes.string,
+    intensity: PropTypes.string,
+    isCompleted: PropTypes.bool,
+    isPublic: PropTypes.bool,
+    parentAdventureId: PropTypes.string,
+    rating: PropTypes.number,
+    timeSubmitted: PropTypes.string,
+    title: PropTypes.string,
+    uid: PropTypes.string,
+  }),
+};
+
+AdventureForm.defaultProps = {
+  adventureObj: {
+    details: 'Adventure Details',
+    firebaseKey: 'FirebaseKey',
+    imageUrl: 'Image',
+    intensity: 'Intensity',
+    isCompleted: true,
+    isPublic: false,
+    parentAdventureId: 'Parent Adventure Id',
+    rating: 3,
+    timeSubmitted: 'Time Submitted',
+    title: 'Adventure Title',
+    uid: 'UID',
+  },
+};
 
 const FormInputContainer = styled.div`
 `;
