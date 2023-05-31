@@ -1,11 +1,12 @@
 // Create and Edit discovery form
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form, FloatingLabel, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
-import { createDiscovery } from '../../api/discoveriesData';
+import { createDiscovery, updateDiscovery } from '../../api/discoveriesData';
 import { getUserAdventures } from '../../api/adventuresData';
 
 const initialState = {
@@ -20,7 +21,7 @@ const initialState = {
   rating: 0,
 };
 
-export default function DiscoveryForm() {
+export default function DiscoveryForm({ discoveryObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [adventures, setAdventures] = useState([]);
   const { user } = useAuth();
@@ -29,6 +30,10 @@ export default function DiscoveryForm() {
   useEffect(() => {
     getUserAdventures(user.uid).then(setAdventures);
   }, [user.uid]);
+
+  useEffect(() => {
+    if (discoveryObj.firebaseKey) setFormInput(discoveryObj);
+  }, [discoveryObj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,8 +45,12 @@ export default function DiscoveryForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
-    createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+    if (discoveryObj) {
+      updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
+    } else {
+      const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
+      createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+    }
   };
 
   return (
@@ -105,8 +114,8 @@ export default function DiscoveryForm() {
             value={formInput.adventureId}
             required
           >
-            <option value="">Select an Adventure</option>
-            <option value="none">None</option>
+            <option value="">Where did you find this?</option>
+            {/* <option value="none">None</option> */}
             {
               adventures.map((adventure) => (
                 <option
@@ -139,44 +148,40 @@ export default function DiscoveryForm() {
         </FloatingLabel>
 
         <CheckBoxesContainer>
-          <FloatingLabel controlId="floatingInput1" label="Public" className="mb-3">
-            <Form.Check
-              className="text-white mb-3"
-              type="switch"
-              id="isPublic"
-              name="isPublic"
-              label="Public?"
-              checked={formInput.isPublic}
-              onChange={(e) => {
-                setFormInput((prevState) => ({
-                  ...prevState,
-                  isPublic: e.target.checked,
-                }));
-              }}
-            />
-          </FloatingLabel>
+          <Form.Check
+            className="text-black mb-3"
+            type="switch"
+            id="isPublic"
+            name="isPublic"
+            label="Public?"
+            checked={formInput.isPublic}
+            onChange={(e) => {
+              setFormInput((prevState) => ({
+                ...prevState,
+                isPublic: e.target.checked,
+              }));
+            }}
+          />
 
-          <FloatingLabel controlId="floatingInput1" label="To Be Discovered?" className="mb-3">
-            <Form.Check
-              className="text-white mb-3"
-              type="switch"
-              id="toBeDiscovered"
-              name="toBeDiscovered"
-              label="To Be Discovered?"
-              checked={formInput.toBeDiscovered}
-              onChange={(e) => {
-                setFormInput((prevState) => ({
-                  ...prevState,
-                  isDiscovered: e.target.checked,
-                }));
-              }}
-            />
-          </FloatingLabel>
+          <Form.Check
+            className="text-black mb-3"
+            type="switch"
+            id="toBeDiscovered"
+            name="toBeDiscovered"
+            label="To Be Discovered?"
+            checked={formInput.toBeDiscovered}
+            onChange={(e) => {
+              setFormInput((prevState) => ({
+                ...prevState,
+                toBeDiscovered: e.target.checked,
+              }));
+            }}
+          />
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
           <Button type="submit">Submit and View Discoveries</Button>
-          <Button type="submit">Add Another Discovery!</Button>
+          {/* {!discoveryObj ? <Button type="submit">Add Another Discovery!</Button> : '' } */}
           <Link href="/discoveries/personal/myDiscoveries" passHref>
             <Button>Cancel</Button>
           </Link>
@@ -185,6 +190,38 @@ export default function DiscoveryForm() {
     </FormInputContainer>
   );
 }
+
+DiscoveryForm.propTypes = {
+  discoveryObj: PropTypes.shape({
+    details: PropTypes.string,
+    firebaseKey: PropTypes.string,
+    imageUrl: PropTypes.string,
+    intensity: PropTypes.string,
+    isCompleted: PropTypes.bool,
+    isPublic: PropTypes.bool,
+    parentAdventureId: PropTypes.string,
+    rating: PropTypes.string,
+    timeSubmitted: PropTypes.string,
+    title: PropTypes.string,
+    uid: PropTypes.string,
+  }),
+};
+
+DiscoveryForm.defaultProps = {
+  discoveryObj: {
+    details: 'Adventure Details',
+    firebaseKey: '',
+    imageUrl: 'Image',
+    intensity: 'Intensity',
+    isCompleted: true,
+    isPublic: false,
+    parentAdventureId: 'Parent Adventure Id',
+    rating: '3',
+    timeSubmitted: 'Time Submitted',
+    title: 'Adventure Title',
+    uid: 'UID',
+  },
+};
 
 const FormInputContainer = styled.div`
 `;

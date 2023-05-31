@@ -12,7 +12,7 @@ const initialState = {
   firebaseKey: '',
   imageUrl: '',
   intensity: '',
-  toBeCompleted: false,
+  toBeDiscovered: false,
   isPublic: false,
   parentAdventureId: '',
   rating: 0,
@@ -27,7 +27,7 @@ export default function AdventureForm({ adventureObj }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (adventureObj) setFormInput(adventureObj);
+    if (adventureObj.firebaseKey) setFormInput(adventureObj);
   }, [adventureObj]);
 
   const handleChange = (e) => {
@@ -40,7 +40,7 @@ export default function AdventureForm({ adventureObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (adventureObj) {
+    if (adventureObj.firebaseKey) {
       updateAdventure(formInput).then(() => router.push(`/adventures/personal/${adventureObj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
@@ -93,9 +93,9 @@ export default function AdventureForm({ adventureObj }) {
             required
           >
             <option>Select a Type</option>
-            <option value="flora">Easy</option>
-            <option value="fauna">Medium</option>
-            <option value="landmark">Hard</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -118,39 +118,35 @@ export default function AdventureForm({ adventureObj }) {
         </FloatingLabel>
 
         <CheckBoxesContainer>
-          <FloatingLabel controlId="floatingInput1" label="Public" className="mb-3">
-            <Form.Check
-              className="text-white mb-3"
-              type="switch"
-              id="isPublic"
-              name="isPublic"
-              label="Public?"
-              checked={formInput.isPublic}
-              onChange={(e) => {
-                setFormInput((prevState) => ({
-                  ...prevState,
-                  isPublic: e.target.checked,
-                }));
-              }}
-            />
-          </FloatingLabel>
+          <Form.Check
+            className="text-black mb-3"
+            type="switch"
+            id="isPublic"
+            name="isPublic"
+            label="Public?"
+            checked={formInput.isPublic}
+            onChange={(e) => {
+              setFormInput((prevState) => ({
+                ...prevState,
+                isPublic: e.target.checked,
+              }));
+            }}
+          />
 
-          <FloatingLabel controlId="floatingInput1" label="To Be Completed?" className="mb-3">
-            <Form.Check
-              className="text-white mb-3"
-              type="switch"
-              id="toBeCompleted"
-              name="toBeCompleted"
-              label="To Be Completed?"
-              checked={formInput.toBeCompleted}
-              onChange={(e) => {
-                setFormInput((prevState) => ({
-                  ...prevState,
-                  toBeCompleted: e.target.checked,
-                }));
-              }}
-            />
-          </FloatingLabel>
+          <Form.Check
+            className="text-black mb-3"
+            type="switch"
+            id="toBeDiscovered"
+            name="toBeDiscovered"
+            label="To Be Completed?"
+            checked={formInput.toBeDiscovered}
+            onChange={(e) => {
+              setFormInput((prevState) => ({
+                ...prevState,
+                toBeDiscovered: e.target.checked,
+              }));
+            }}
+          />
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
@@ -171,7 +167,7 @@ AdventureForm.propTypes = {
     firebaseKey: PropTypes.string,
     imageUrl: PropTypes.string,
     intensity: PropTypes.string,
-    isCompleted: PropTypes.bool,
+    toBeDiscovered: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
     rating: PropTypes.number,
@@ -184,10 +180,10 @@ AdventureForm.propTypes = {
 AdventureForm.defaultProps = {
   adventureObj: {
     details: 'Adventure Details',
-    firebaseKey: 'FirebaseKey',
+    firebaseKey: '',
     imageUrl: 'Image',
     intensity: 'Intensity',
-    isCompleted: true,
+    toBeDiscovered: true,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
     rating: 3,

@@ -2,10 +2,14 @@ import { PropTypes } from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import { deleteSingleAdventure } from '../../api/adventuresData';
 
-export default function BigAdventureCard({ adventureObj, onUpdate }) {
-  const deleteThisAdventure = () => deleteSingleAdventure(adventureObj.firebaseKey).then(onUpdate);
+export default function BigAdventureCard({ adventureObj }) {
+  const router = useRouter();
+  const deleteThisAdventure = () => deleteSingleAdventure(adventureObj.firebaseKey).then(() => {
+    router.push('/adventures/personal/myAdventures');
+  });
 
   return (
     <>
@@ -44,7 +48,6 @@ BigAdventureCard.propTypes = {
     title: PropTypes.string,
     uid: PropTypes.string,
   }),
-  onUpdate: PropTypes.func.isRequired,
 };
 
 BigAdventureCard.defaultProps = {

@@ -23,7 +23,6 @@ export default function ViewSingleDiscovery() {
       setDiscovery(discoveryObj);
       getAdventureFromDiscovery(discoveryObj.adventureId).then((adventureObj) => {
         setAdventure(adventureObj);
-        console.warn(adventureObj);
       });
     });
   }, [firebaseKey]);
@@ -31,7 +30,6 @@ export default function ViewSingleDiscovery() {
   return (
     <>
       <h1>{discovery.name} from {adventure[0]?.title}</h1>
-      {console.warn(adventure)}
       <Link href="/discoveries/personal/myDiscoveries" passHref>
         <Button variant="info">Return to My Discoveries</Button>
       </Link>
