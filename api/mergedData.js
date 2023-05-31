@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { clientCredentials } from '../utils/client';
+import { deleteSingleDiscovery } from './discoveriesData';
+import { deleteSingleAdventure } from './adventuresData';
 
 const dbUrl = clientCredentials.databaseURL;
 
@@ -17,4 +19,14 @@ const getDiscoveriesFromAdventure = (firebaseKey) => new Promise((resolve, rejec
     .catch(reject);
 });
 
-export { getAdventureFromDiscovery, getDiscoveriesFromAdventure };
+const deleteDiscoveriesOfAdventure = (firebaseKey) => new Promise((resolve, reject) => {
+  getDiscoveriesFromAdventure(firebaseKey).then((adventuresArray) => {
+    const deleteAdventurePromises = adventuresArray.map((adventure) => deleteSingleDiscovery(adventure.firebaseKey));
+
+    Promise.all(deleteAdventurePromises).then(() => {
+      deleteSingleAdventure(firebaseKey).then(resolve);
+    });
+  }).catch((error) => reject(error));
+});
+
+export { getAdventureFromDiscovery, getDiscoveriesFromAdventure, deleteDiscoveriesOfAdventure };

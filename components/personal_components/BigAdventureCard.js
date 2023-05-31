@@ -3,11 +3,12 @@ import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { deleteSingleAdventure } from '../../api/adventuresData';
+// import { deleteSingleAdventure } from '../../api/adventuresData';
+import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 
 export default function BigAdventureCard({ adventureObj }) {
   const router = useRouter();
-  const deleteThisAdventure = () => deleteSingleAdventure(adventureObj.firebaseKey).then(() => {
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(() => {
     router.push('/adventures/personal/myAdventures');
   });
 
@@ -43,7 +44,7 @@ BigAdventureCard.propTypes = {
     isCompleted: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
-    rating: PropTypes.number,
+    rating: PropTypes.string,
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
@@ -59,7 +60,7 @@ BigAdventureCard.defaultProps = {
     isCompleted: true,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
-    rating: 3,
+    rating: '3',
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',

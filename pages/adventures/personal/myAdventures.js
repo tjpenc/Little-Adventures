@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import LittleAdventureCard from '../../../components/personal_components/LittleAdventureCard';
 import { getUserAdventures } from '../../../api/adventuresData';
@@ -17,7 +19,12 @@ export default function ViewMyAdventures() {
 
   return (
     <>
-      <h1>My Adventures</h1>
+      <HeaderContainer>
+        <h1>My Adventures</h1>
+        <Link href="/adventures/personal/createAdventure" passHref>
+          <Button variant="primary" className="m-2">Create an Adventure!</Button>
+        </Link>
+      </HeaderContainer>
       <AdventureJournalContainer>
         <AdventuresContainer>
           {adventures?.map((adventure) => (
@@ -28,6 +35,11 @@ export default function ViewMyAdventures() {
     </>
   );
 }
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
 
 const AdventureJournalContainer = styled.div`
 

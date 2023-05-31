@@ -22,7 +22,7 @@ export default function ViewDiscoveries() {
       <HeaderContainer>
         <h1>My Discoveries</h1>
         <Link href="/discoveries/personal/createDiscovery" passHref>
-          <Button variant="primary" className="m-2">Create A Discovery!</Button>
+          <Button variant="primary" className="m-2">Add A Discovery!</Button>
         </Link>
       </HeaderContainer>
       <DiscoveriesContainer>

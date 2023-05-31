@@ -27,7 +27,7 @@ export default function ViewSingleAdventure() {
       </Link>
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
-        <p>This will be the place for {discovery.name}</p>
+        <p key={discovery.firebaseKey}>This will be the place for {discovery.name}</p>
       ))}
     </>
   );

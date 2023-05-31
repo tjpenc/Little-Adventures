@@ -45,7 +45,7 @@ export default function DiscoveryForm({ discoveryObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (discoveryObj) {
+    if (discoveryObj.firebaseKey) {
       updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
