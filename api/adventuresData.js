@@ -39,6 +39,12 @@ const createAdventure = (payload) => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
+const updateAdventure = (patchPayload) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/adventures/${patchPayload.firebaseKey}.json`, patchPayload)
+    .then(resolve)
+    .then(reject);
+});
+
 export {
-  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures, createAdventure,
+  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures, createAdventure, updateAdventure,
 };
