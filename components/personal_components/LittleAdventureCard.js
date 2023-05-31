@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../utils/context/authContext';
-import { deleteSingleAdventure } from '../../api/adventuresData';
+// import { deleteSingleAdventure } from '../../api/adventuresData';
+import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -14,7 +15,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
     setShowMenu(!showMenu);
   };
 
-  const deleteThisAdventure = () => deleteSingleAdventure(adventureObj.firebaseKey).then(onUpdate);
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(onUpdate);
 
   return (
     <MessageContainer>
@@ -47,7 +48,7 @@ LittleAdventureCard.propTypes = {
     isCompleted: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
-    rating: PropTypes.number,
+    rating: PropTypes.string,
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,

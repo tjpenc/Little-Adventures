@@ -2,10 +2,11 @@ import { PropTypes } from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { deleteSingleDiscovery } from '../../api/discoveriesData';
+// import { deleteSingleDiscovery } from '../../api/discoveriesData';
+import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+  const deleteThisDiscovery = () => deleteDiscoveriesOfAdventure(discoveryObj.firebaseKey).then(onUpdate);
 
   return (
     <>
@@ -66,7 +67,7 @@ BigDiscoveryCard.defaultProps = {
     timeSubmitted: 'Time Submitted',
     type: 'Flora',
     uid: 'UID',
-    rating: '3',
+    rating: 3,
   },
 };
 

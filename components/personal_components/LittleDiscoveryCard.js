@@ -62,7 +62,7 @@ LittleDiscoveryCard.defaultProps = {
     timeSubmitted: 'Time Submitted',
     type: 'Flora',
     uid: 'UID',
-    rating: '3',
+    rating: 3,
   },
 };
 
