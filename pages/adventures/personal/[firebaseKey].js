@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import BigAdventureCard from '../../../components/personal_components/BigAdventureCard';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
@@ -20,6 +22,9 @@ export default function ViewSingleAdventure() {
   // map over little discoveries once styled
   return (
     <>
+      <Link href="/adventures/personal/myAdventures" passHref>
+        <Button variant="info">Return to My Adventures</Button>
+      </Link>
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
         <p>This will be the place for {discovery.name}</p>

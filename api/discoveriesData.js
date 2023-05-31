@@ -39,6 +39,12 @@ const createDiscovery = (payload) => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
+const updateDiscovery = (patchPayload) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/discoveries/${patchPayload.firebaseKey}`, patchPayload)
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery, getAllDiscoveries, createDiscovery,
+  getUserDiscoveries, deleteSingleDiscovery, getSingleUserDiscovery, getAllDiscoveries, createDiscovery, updateDiscovery,
 };
