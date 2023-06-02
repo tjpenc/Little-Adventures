@@ -1,9 +1,12 @@
 // view single public adventure
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import BigAdventureCardPublic from '../../../components/public_components/BigAdventureCardPublic';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
+import BigAdventureCard from '../../../components/cards/BigAdventureCard';
+import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
 
 // view single adventure form
 export default function ViewSinglePublicAdventure() {
@@ -18,12 +21,14 @@ export default function ViewSinglePublicAdventure() {
     getDiscoveriesFromAdventure(firebaseKey).then(setDiscoveries);
   }, [firebaseKey]);
 
-  // map over little discoveries once styled
   return (
     <>
-      <BigAdventureCardPublic key={firebaseKey} adventureObj={adventure} />
+      <Link href="/adventures/public/publicAdventures" passHref>
+        <Button variant="info">Public Adventures</Button>
+      </Link>
+      <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
-        <p>This will be the place for {discovery.name}</p>
+        <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate="" />
       ))}
     </>
   );

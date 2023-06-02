@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getSingleUserDiscovery } from '../../../api/discoveriesData';
-import BigDiscoveryCard from '../../../components/personal_components/BigDIscoveryCard';
+import BigDiscoveryCard from '../../../components/cards/BigDIscoveryCard';
 import { getAdventureFromDiscovery } from '../../../api/mergedData';
 
 // view single discovery form
@@ -31,7 +31,7 @@ export default function ViewSingleDiscovery() {
     <>
       <h1>{discovery.name} from {adventure[0]?.title}</h1>
       <Link href="/discoveries/personal/myDiscoveries" passHref>
-        <Button variant="info">Return to My Discoveries</Button>
+        <Button variant="info">My Discoveries</Button>
       </Link>
       <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
     </>

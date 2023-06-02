@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../utils/context/authContext';
-import { deleteSingleAdventure } from '../../api/adventuresData';
+// import { deleteSingleAdventure } from '../../api/adventuresData';
+import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
+import { AddToExploreContainer } from '../../styles/commonStyles';
 
-export default function LittleAdventureCardPublic({ adventureObj, onUpdate }) {
+export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
   const { user } = useAuth();
 
@@ -14,7 +16,7 @@ export default function LittleAdventureCardPublic({ adventureObj, onUpdate }) {
     setShowMenu(!showMenu);
   };
 
-  const deleteThisAdventure = () => deleteSingleAdventure(adventureObj.firebaseKey).then(onUpdate);
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(onUpdate);
 
   return (
     <MessageContainer>
@@ -24,13 +26,22 @@ export default function LittleAdventureCardPublic({ adventureObj, onUpdate }) {
           {adventureObj.title}<span> {adventureObj.timeSubmitted}</span>
         </h4>
       </MessageInfo>
-      {user.uid !== adventureObj.uid ? '' : <MenuButton onClick={toggleMenu}>⋮</MenuButton>}
+      <MenuButton onClick={toggleMenu}>⋮</MenuButton>
       {showMenu ? (
         <OptionsMenu onMouseLeave={toggleMenu}>
           <ul>
-            <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
-            <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
-            <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
+            {adventureObj.uid !== user.uid ? (
+              <>
+                <OptionItem><Link href={`/adventures/public/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
+                <AddToExploreContainer>+</AddToExploreContainer>
+              </>
+            ) : (
+              <>
+                <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
+                <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
+                <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
+              </>
+            )}
           </ul>
         </OptionsMenu>
       ) : ''}
@@ -38,7 +49,7 @@ export default function LittleAdventureCardPublic({ adventureObj, onUpdate }) {
   );
 }
 
-LittleAdventureCardPublic.propTypes = {
+LittleAdventureCard.propTypes = {
   adventureObj: PropTypes.shape({
     details: PropTypes.string,
     firebaseKey: PropTypes.string,
@@ -55,7 +66,7 @@ LittleAdventureCardPublic.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-LittleAdventureCardPublic.defaultProps = {
+LittleAdventureCard.defaultProps = {
   adventureObj: {
     details: 'Adventure Details',
     firebaseKey: 'FirebaseKey',
@@ -64,7 +75,7 @@ LittleAdventureCardPublic.defaultProps = {
     isCompleted: true,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
-    rating: '3',
+    rating: 3,
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',

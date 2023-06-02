@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import LittleAdventureCard from '../../../components/personal_components/LittleAdventureCard';
+import LittleAdventureCard from '../../../components/cards/LittleAdventureCard';
 import { getUserAdventures } from '../../../api/adventuresData';
 import { useAuth } from '../../../utils/context/authContext';
 
@@ -22,7 +22,7 @@ export default function ViewMyAdventures() {
       <HeaderContainer>
         <h1>My Adventures</h1>
         <Link href="/adventures/personal/createAdventure" passHref>
-          <Button variant="primary" className="m-2">Create an Adventure!</Button>
+          <Button variant="primary" className="m-2">Log an Adventure!</Button>
         </Link>
       </HeaderContainer>
       <AdventureJournalContainer>

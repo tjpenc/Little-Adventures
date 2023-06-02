@@ -43,9 +43,10 @@ const AppContainer = styled.div`
 
 const NavContainer = styled.div`
   z-index: 1;
-  width: 170px;
+  width: 15%;
 `;
 
 const ContentContainer = styled.div`
+  width: 100%;
   flex-grow: 1;
 `;
