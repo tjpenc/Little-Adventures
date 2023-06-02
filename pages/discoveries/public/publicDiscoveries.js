@@ -2,10 +2,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAllDiscoveries } from '../../../api/discoveriesData';
-import LittleDiscoveryCardPublic from '../../../components/public_components/LittleDiscoveryCardPublic';
+import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
+import { useAuth } from '../../../utils/context/authContext';
 
 export default function ViewPublicDiscoveries() {
   const [discoveries, setDiscoveries] = useState([]);
+
+  const { user } = useAuth();
 
   const getPublicDiscoveries = () => getAllDiscoveries().then((discoveriesArray) => {
     const publicDiscoveries = discoveriesArray.filter((discovery) => discovery.isPublic === true);
@@ -21,7 +24,9 @@ export default function ViewPublicDiscoveries() {
       <h1>Public Discoveries</h1>
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (
-          <LittleDiscoveryCardPublic key={discovery.firebaseKey} discoveryObj={discovery} />
+          discovery.uid !== user.uid
+            ? <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} />
+            : ''
         ))}
       </DiscoveriesContainer>
     </>

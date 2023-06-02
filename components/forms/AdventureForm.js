@@ -15,7 +15,7 @@ const initialState = {
   toBeDiscovered: false,
   isPublic: false,
   parentAdventureId: '',
-  rating: 0,
+  rating: '0',
   timeSubmitted: '',
   title: '',
   uid: '',
@@ -92,10 +92,10 @@ export default function AdventureForm({ adventureObj }) {
             onChange={handleChange}
             required
           >
-            <option>Select a Type</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+            <option>Select an Intensity</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -109,11 +109,11 @@ export default function AdventureForm({ adventureObj }) {
             required
           >
             <option>Rating</option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -150,7 +150,7 @@ export default function AdventureForm({ adventureObj }) {
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
-          <Button type="submit">Submit and View Adventures</Button>
+          <Button type="submit">Submit Adventure</Button>
           {/* {!adventureObj ? <Button type="submit">Add Some Discoveries!</Button> : ''} */}
           <Link href="/adventures/personal/myAdventures" passHref>
             <Button>Cancel</Button>
@@ -170,7 +170,7 @@ AdventureForm.propTypes = {
     toBeDiscovered: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
-    rating: PropTypes.number,
+    rating: PropTypes.string,
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
@@ -186,7 +186,7 @@ AdventureForm.defaultProps = {
     toBeDiscovered: true,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
-    rating: 3,
+    rating: '0',
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',

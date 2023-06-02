@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getSingleUserDiscovery } from '../../../api/discoveriesData';
-import BigDiscoveryCardPublic from '../../../components/public_components/BigDiscoveryCardPublic';
+// import BigDiscoveryCardPublic from '../../../components/public_components/BigDiscoveryCardPublic';
+import BigDiscoveryCard from '../../../components/cards/BigDIscoveryCard';
 
 export default function ViewSinglePublicDiscovery() {
   const [discovery, setDiscovery] = useState({});
@@ -19,10 +20,10 @@ export default function ViewSinglePublicDiscovery() {
   return (
     <>
       <h1>{discovery.name} from {discovery.adventureTitle}</h1>
-      <Link href="/discoveries/personal/myDiscoveries" passHref>
+      <Link href="/discoveries/public/publicDiscoveries" passHref>
         <Button variant="info">Return to Public Discoveries</Button>
       </Link>
-      <BigDiscoveryCardPublic key={discovery.firebaseKey} discoveryObj={discovery} />;
+      <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} />;
     </>
   );
 }

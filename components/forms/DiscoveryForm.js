@@ -98,10 +98,10 @@ export default function DiscoveryForm({ discoveryObj }) {
             required
           >
             <option>Select a Type</option>
-            <option value="flora">Flora</option>
-            <option value="fauna">Fauna</option>
-            <option value="landmark">Landmark</option>
-            <option value="cryptid">Cryptid</option>
+            <option value="Flora">Flora</option>
+            <option value="Fauna">Fauna</option>
+            <option value="Landmark">Landmark</option>
+            <option value="Cryptid">Cryptid</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -117,7 +117,7 @@ export default function DiscoveryForm({ discoveryObj }) {
             <option value="">Where did you find this?</option>
             {/* <option value="none">None</option> */}
             {
-              adventures.map((adventure) => (
+              adventures?.map((adventure) => (
                 <option
                   key={adventure.firebaseKey}
                   value={adventure.firebaseKey}
@@ -139,11 +139,11 @@ export default function DiscoveryForm({ discoveryObj }) {
             required
           >
             <option>Rating</option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </Form.Select>
         </FloatingLabel>
 

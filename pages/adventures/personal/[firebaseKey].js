@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import BigAdventureCard from '../../../components/personal_components/BigAdventureCard';
+import BigAdventureCard from '../../../components/cards/BigAdventureCard';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
+import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
 
 // view single adventure form
 export default function ViewSingleAdventure() {
@@ -19,15 +20,19 @@ export default function ViewSingleAdventure() {
     getDiscoveriesFromAdventure(firebaseKey).then(setDiscoveries);
   }, [firebaseKey]);
 
-  // map over little discoveries once styled
+  const onUpdate = () => {
+    getSingleAdventure(firebaseKey).then(setAdventure);
+    getDiscoveriesFromAdventure(firebaseKey).then(setDiscoveries);
+  };
+
   return (
     <>
       <Link href="/adventures/personal/myAdventures" passHref>
-        <Button variant="info">Return to My Adventures</Button>
+        <Button variant="info">My Adventures</Button>
       </Link>
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
-        <p key={discovery.firebaseKey}>This will be the place for {discovery.name}</p>
+        <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={onUpdate} />
       ))}
     </>
   );
