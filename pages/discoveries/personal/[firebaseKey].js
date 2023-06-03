@@ -29,10 +29,20 @@ export default function ViewSingleDiscovery() {
 
   return (
     <>
-      <h1>{discovery.name} from {adventure[0]?.title}</h1>
-      <Link href="/discoveries/personal/myDiscoveries" passHref>
-        <Button variant="info">My Discoveries</Button>
-      </Link>
+      {adventure[0]?.title
+        ? <h1>{discovery.name} from {adventure[0]?.title} Adventure</h1>
+        : <h1>{discovery.name}</h1>}
+      {discovery.toBeDiscovered !== true
+        ? (
+          <Link href="/discoveries/personal/myDiscoveries" passHref>
+            <Button variant="info">My Discoveries</Button>
+          </Link>
+        )
+        : (
+          <Link href="/toExplore/discoveries" passHref>
+            <Button variant="info">Discoveries to Find</Button>
+          </Link>
+        )}
       <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
     </>
   );

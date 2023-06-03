@@ -12,8 +12,8 @@ export default function ViewDiscoveries() {
   const { user } = useAuth();
 
   const getAllUserDiscoveries = () => getUserDiscoveries(user.uid).then((discoveriesArray) => {
-    const discovered = discoveriesArray.filter((discovery) => discovery.toBeDiscovered === false);
-    setDiscoveries(discovered);
+    const foundDiscoveries = discoveriesArray.filter((discovery) => discovery.toBeDiscovered === false);
+    setDiscoveries(foundDiscoveries);
   });
 
   useEffect(() => {

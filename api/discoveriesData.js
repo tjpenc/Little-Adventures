@@ -50,7 +50,7 @@ const createDiscovery = (payload) => new Promise((resolve, reject) => {
 });
 
 const updateDiscovery = (patchPayload) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/discoveries/${patchPayload.firebaseKey}`, patchPayload)
+  axios.patch(`${dbUrl}/discoveries/${patchPayload.firebaseKey}.json`, patchPayload)
     .then(resolve)
     .catch(reject);
 });

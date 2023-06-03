@@ -32,6 +32,9 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
               </>
             ) : (
               <>
+                <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
+                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                </Link>
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
                   <Button variant="info">EDIT</Button>
                 </Link>
