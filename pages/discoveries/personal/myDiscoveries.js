@@ -11,7 +11,10 @@ export default function ViewDiscoveries() {
   const [discoveries, setDiscoveries] = useState([]);
   const { user } = useAuth();
 
-  const getAllUserDiscoveries = () => getUserDiscoveries(user.uid).then(setDiscoveries);
+  const getAllUserDiscoveries = () => getUserDiscoveries(user.uid).then((discoveriesArray) => {
+    const foundDiscoveries = discoveriesArray.filter((discovery) => discovery.toBeDiscovered === false);
+    setDiscoveries(foundDiscoveries);
+  });
 
   useEffect(() => {
     getAllUserDiscoveries();

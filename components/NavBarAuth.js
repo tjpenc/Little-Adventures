@@ -67,7 +67,7 @@ const NavContainer = styled.div`
   background-color: #222529;
   position: fixed;
   top: 0;
-  width: ${(props) => (props.open ? '13%' : '3%')};
+  width: ${(props) => (props.open ? '11%' : '3%')};
   transition: 0.5s;
   >* {
     cursor: pointer;

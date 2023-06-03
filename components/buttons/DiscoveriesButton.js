@@ -1,10 +1,24 @@
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 
-export default function DiscoveriesButton() {
+export default function DiscoveriesButton({ toExplore }) {
   return (
-    <Link href="/discoveries/personal/myDiscoveries" passHref>
-      <Button>Discoveries</Button>
-    </Link>
+    <>
+      {toExplore
+        ? (
+          <Link href="/toExplore/discoveries" passHref>
+            <Button>Discoveries</Button>
+          </Link>
+        ) : (
+          <Link href="/discoveries/personal/myDiscoveries" passHref>
+            <Button>Discoveries</Button>
+          </Link>
+        )}
+    </>
   );
 }
+
+DiscoveriesButton.propTypes = {
+  toExplore: PropTypes.bool.isRequired,
+};

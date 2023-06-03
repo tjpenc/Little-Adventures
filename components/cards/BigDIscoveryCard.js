@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
+import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
@@ -14,18 +15,26 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
     <>
       <BigDiscoveryCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
-          {discoveryObj.uid !== user.uid ? <AddToExploreContainer><div>+</div></AddToExploreContainer> : ''}
+          {discoveryObj.uid !== user.uid
+            ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
+            : ''}
           <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
           <Card.Body>
             <Card.Title>{discoveryObj.name}</Card.Title>
             <Card.Text>Type: {discoveryObj.type}</Card.Text>
             <Card.Text>Details: {discoveryObj.details}</Card.Text>
             <Card.Text>Rating: {discoveryObj.rating}</Card.Text>
-            <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
-              <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
-            </Link>
-            {discoveryObj.uid !== user.uid ? '' : (
+            {discoveryObj.uid !== user.uid ? (
               <>
+                <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>
+                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
+                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                </Link>
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
                   <Button variant="info">EDIT</Button>
                 </Link>

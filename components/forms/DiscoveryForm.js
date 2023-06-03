@@ -28,7 +28,10 @@ export default function DiscoveryForm({ discoveryObj }) {
   const router = useRouter();
 
   useEffect(() => {
-    getUserAdventures(user.uid).then(setAdventures);
+    getUserAdventures(user.uid).then((adventuresArray) => {
+      const completedAdventures = adventuresArray.filter((adventure) => adventure.toBeExplored === false);
+      setAdventures(completedAdventures);
+    });
   }, [user.uid]);
 
   useEffect(() => {
@@ -115,7 +118,7 @@ export default function DiscoveryForm({ discoveryObj }) {
             required
           >
             <option value="">Where did you find this?</option>
-            {/* <option value="none">None</option> */}
+            <option value="none">None</option>
             {
               adventures?.map((adventure) => (
                 <option
@@ -181,8 +184,7 @@ export default function DiscoveryForm({ discoveryObj }) {
 
         <SubmitButtonContainer>
           <Button type="submit">Submit and View Discoveries</Button>
-          {/* {!discoveryObj ? <Button type="submit">Add Another Discovery!</Button> : '' } */}
-          <Link href="/discoveries/personal/myDiscoveries" passHref>
+          <Link href={!discoveryObj.toBeDiscovered ? '/discoveries/personal/myDiscoveries' : '/toExplore/discoveries'} passHref>
             <Button>Cancel</Button>
           </Link>
         </SubmitButtonContainer>
@@ -197,7 +199,7 @@ DiscoveryForm.propTypes = {
     firebaseKey: PropTypes.string,
     imageUrl: PropTypes.string,
     intensity: PropTypes.string,
-    isCompleted: PropTypes.bool,
+    toBeDiscovered: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
     rating: PropTypes.string,
@@ -213,7 +215,7 @@ DiscoveryForm.defaultProps = {
     firebaseKey: '',
     imageUrl: 'Image',
     intensity: 'Intensity',
-    isCompleted: true,
+    toBeDiscovered: false,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
     rating: '3',

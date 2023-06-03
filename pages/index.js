@@ -43,8 +43,8 @@ function Home() {
           alt="user"
         />
         <FilterButtonContainer>
-          <AdventuresButton />
-          <DiscoveriesButton />
+          <AdventuresButton toExplore={false} />
+          <DiscoveriesButton toExplore={false} />
         </FilterButtonContainer>
       </div>
     </>

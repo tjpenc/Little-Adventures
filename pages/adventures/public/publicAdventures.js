@@ -19,9 +19,10 @@ export default function ViewPublicAdventures() {
 
   return (
     <>
+      <h1>Public Adventures</h1>
       {adventures?.map((adventure) => (
         adventure.uid !== user.uid
-          ? <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} onUpdate="" />
+          ? <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} onUpdate={() => {}} />
           : ''
       ))}
     </>

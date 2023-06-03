@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getSingleUserDiscovery } from '../../../api/discoveriesData';
+import { getSingleDiscovery } from '../../../api/discoveriesData';
 import BigDiscoveryCard from '../../../components/cards/BigDIscoveryCard';
 import { getAdventureFromDiscovery } from '../../../api/mergedData';
 
@@ -19,7 +19,7 @@ export default function ViewSingleDiscovery() {
   };
 
   useEffect(() => {
-    getSingleUserDiscovery(firebaseKey).then((discoveryObj) => {
+    getSingleDiscovery(firebaseKey).then((discoveryObj) => {
       setDiscovery(discoveryObj);
       getAdventureFromDiscovery(discoveryObj.adventureId).then((adventureObj) => {
         setAdventure(adventureObj);
@@ -29,10 +29,20 @@ export default function ViewSingleDiscovery() {
 
   return (
     <>
-      <h1>{discovery.name} from {adventure[0]?.title}</h1>
-      <Link href="/discoveries/personal/myDiscoveries" passHref>
-        <Button variant="info">My Discoveries</Button>
-      </Link>
+      {adventure[0]?.title
+        ? <h1>{discovery.name} from {adventure[0]?.title} Adventure</h1>
+        : <h1>{discovery.name}</h1>}
+      {discovery.toBeDiscovered !== true
+        ? (
+          <Link href="/discoveries/personal/myDiscoveries" passHref>
+            <Button variant="info">My Discoveries</Button>
+          </Link>
+        )
+        : (
+          <Link href="/toExplore/discoveries" passHref>
+            <Button variant="info">Discoveries to Find</Button>
+          </Link>
+        )}
       <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
     </>
   );

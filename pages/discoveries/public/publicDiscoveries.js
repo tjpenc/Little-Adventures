@@ -25,7 +25,7 @@ export default function ViewPublicDiscoveries() {
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (
           discovery.uid !== user.uid
-            ? <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} />
+            ? <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={() => {}} />
             : ''
         ))}
       </DiscoveriesContainer>

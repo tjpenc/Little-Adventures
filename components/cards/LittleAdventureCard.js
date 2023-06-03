@@ -7,6 +7,7 @@ import { useAuth } from '../../utils/context/authContext';
 // import { deleteSingleAdventure } from '../../api/adventuresData';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { AddToExploreContainer } from '../../styles/commonStyles';
+import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -33,7 +34,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
             {adventureObj.uid !== user.uid ? (
               <>
                 <OptionItem><Link href={`/adventures/public/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
-                <AddToExploreContainer>+</AddToExploreContainer>
+                <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
               </>
             ) : (
               <>
