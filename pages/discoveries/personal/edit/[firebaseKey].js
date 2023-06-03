@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getSingleUserDiscovery } from '../../../../api/discoveriesData';
+import { getSingleDiscovery } from '../../../../api/discoveriesData';
 import DiscoveryForm from '../../../../components/forms/DiscoveryForm';
 
 export default function CreateDiscovery() {
@@ -12,7 +12,7 @@ export default function CreateDiscovery() {
   const { firebaseKey } = router.query;
 
   useEffect(() => {
-    getSingleUserDiscovery(firebaseKey).then(setDiscovery);
+    getSingleDiscovery(firebaseKey).then(setDiscovery);
   }, [firebaseKey]);
 
   return (

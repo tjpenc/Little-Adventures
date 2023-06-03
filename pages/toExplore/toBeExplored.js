@@ -1,4 +1,12 @@
-// to be explored page
+import AdventuresButton from '../../components/buttons/AdventuresButton';
+import DiscoveriesButton from '../../components/buttons/DiscoveriesButton';
+
 export default function ToBeExplored() {
-  return <p>This is the initial to be explored page</p>;
+  return (
+    <>
+      <AdventuresButton toExplore />
+      <DiscoveriesButton toExplore />
+    </>
+
+  );
 }

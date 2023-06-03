@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getSingleUserDiscovery } from '../../../api/discoveriesData';
+import { getSingleDiscovery } from '../../../api/discoveriesData';
 import BigDiscoveryCard from '../../../components/cards/BigDIscoveryCard';
 import { getAdventureFromDiscovery } from '../../../api/mergedData';
 
@@ -19,7 +19,7 @@ export default function ViewSingleDiscovery() {
   };
 
   useEffect(() => {
-    getSingleUserDiscovery(firebaseKey).then((discoveryObj) => {
+    getSingleDiscovery(firebaseKey).then((discoveryObj) => {
       setDiscovery(discoveryObj);
       getAdventureFromDiscovery(discoveryObj.adventureId).then((adventureObj) => {
         setAdventure(adventureObj);

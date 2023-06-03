@@ -12,7 +12,7 @@ const initialState = {
   firebaseKey: '',
   imageUrl: '',
   intensity: '',
-  toBeDiscovered: false,
+  toBeExplored: false,
   isPublic: false,
   parentAdventureId: '',
   rating: '0',
@@ -136,14 +136,14 @@ export default function AdventureForm({ adventureObj }) {
           <Form.Check
             className="text-black mb-3"
             type="switch"
-            id="toBeDiscovered"
-            name="toBeDiscovered"
-            label="To Be Completed?"
-            checked={formInput.toBeDiscovered}
+            id="toBeExplored"
+            name="toBeExplored"
+            label="To Be Explored?"
+            checked={formInput.toBeExplored}
             onChange={(e) => {
               setFormInput((prevState) => ({
                 ...prevState,
-                toBeDiscovered: e.target.checked,
+                toBeExplored: e.target.checked,
               }));
             }}
           />

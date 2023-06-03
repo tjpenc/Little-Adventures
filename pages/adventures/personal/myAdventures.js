@@ -11,7 +11,10 @@ export default function ViewMyAdventures() {
   const [adventures, setAdventures] = useState([]);
   const { user } = useAuth();
 
-  const getAllUsersAdventures = () => getUserAdventures(user.uid).then(setAdventures);
+  const getAllUsersAdventures = () => getUserAdventures(user.uid).then((adventuresArray) => {
+    const completedAdventures = adventuresArray.filter((adventure) => adventure.toBeExplored === false);
+    setAdventures(completedAdventures);
+  });
 
   useEffect(() => {
     getAllUsersAdventures();
