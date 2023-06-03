@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer } from '../../styles/commonStyles';
+import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
@@ -13,13 +14,15 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   return (
     <LittleDiscoveryCardContainer>
       <Card style={{ width: '18rem', margin: '10px' }}>
-        {discoveryObj.uid !== user.uid ? <AddToExploreContainer><div>+</div></AddToExploreContainer> : '' }
+        {discoveryObj.uid !== user.uid
+          ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
+          : '' }
         <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
-          <Card.Text>{discoveryObj.type}</Card.Text>
-          <Card.Text>{discoveryObj.details}</Card.Text>
-          <Card.Text>{discoveryObj.rating}</Card.Text>
+          <Card.Text>Type: {discoveryObj.type}</Card.Text>
+          <Card.Text>Details: {discoveryObj.details}</Card.Text>
+          <Card.Text>Rating: {discoveryObj.rating}</Card.Text>
           {discoveryObj.uid !== user.uid ? (
             <>
               <Link href={`/discoveries/public/${discoveryObj.firebaseKey}`} passHref>

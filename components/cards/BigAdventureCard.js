@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer } from '../../styles/commonStyles';
+import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function BigAdventureCard({ adventureObj }) {
   const { user } = useAuth();
@@ -17,9 +18,11 @@ export default function BigAdventureCard({ adventureObj }) {
 
   return (
     <>
-      <BigDiscoveryCardContainer>
+      <BigAdventureCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
-          {adventureObj.uid !== user.uid ? <AddToExploreContainer><div>+</div></AddToExploreContainer> : ''}
+          {adventureObj.uid !== user.uid
+            ? <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
+            : ''}
           <Card.Img variant="top" src={adventureObj.imageUrl} alt={adventureObj.title} style={{ height: '200px' }} />
           <Card.Body>
             <Card.Title>{adventureObj.title}</Card.Title>
@@ -38,7 +41,7 @@ export default function BigAdventureCard({ adventureObj }) {
             )}
           </Card.Body>
         </Card>
-      </BigDiscoveryCardContainer>
+      </BigAdventureCardContainer>
     </>
   );
 }
@@ -75,7 +78,7 @@ BigAdventureCard.defaultProps = {
   },
 };
 
-const BigDiscoveryCardContainer = styled.div`
+const BigAdventureCardContainer = styled.div`
   width: 500px;
   height: 1000px;
   display: flex;

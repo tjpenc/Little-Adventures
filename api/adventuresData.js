@@ -5,8 +5,13 @@ const dbUrl = clientCredentials.databaseURL;
 
 const getUserAdventures = (uid) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/adventures.json?orderBy="uid"&equalTo="${uid}"`)
-    .then((response) => (response.data))
-    .then((data) => resolve(Object.values(data)))
+    .then((response) => {
+      if (response.data) {
+        resolve((Object.values(response.data)));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
@@ -18,8 +23,13 @@ const getSingleAdventure = (firebaseKey) => new Promise((resolve, reject) => {
 
 const getAllAdventures = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/adventures.json`)
-    .then((response) => (response.data))
-    .then((data) => resolve(Object.values(data)))
+    .then((response) => {
+      if (response.data) {
+        resolve(Object.values(response.data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
@@ -45,6 +55,21 @@ const updateAdventure = (patchPayload) => new Promise((resolve, reject) => {
     .then(reject);
 });
 
+const cloneAdventure = (payload, user) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/adventures.json`, payload)
+    .then((response) => {
+      const patchPayload = {
+        firebaseKey: response.data.name,
+        uid: user.uid,
+        toBeExplored: true,
+        timeSubmitted: Date().toString(),
+        parentAdventureId: payload.firebaseKey,
+      };
+      axios.patch(`${dbUrl}/adventures/${response.data.name}.json`, patchPayload)
+        .then(resolve);
+    }).catch(reject);
+});
+
 export {
-  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures, createAdventure, updateAdventure,
+  getUserAdventures, getSingleAdventure, deleteSingleAdventure, getAllAdventures, createAdventure, updateAdventure, cloneAdventure,
 };

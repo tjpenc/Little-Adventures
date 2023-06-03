@@ -12,7 +12,7 @@ const initialState = {
   firebaseKey: '',
   imageUrl: '',
   intensity: '',
-  toBeDiscovered: false,
+  toBeExplored: false,
   isPublic: false,
   parentAdventureId: '',
   rating: '0',
@@ -136,14 +136,14 @@ export default function AdventureForm({ adventureObj }) {
           <Form.Check
             className="text-black mb-3"
             type="switch"
-            id="toBeDiscovered"
-            name="toBeDiscovered"
-            label="To Be Completed?"
-            checked={formInput.toBeDiscovered}
+            id="toBeExplored"
+            name="toBeExplored"
+            label="To Be Explored?"
+            checked={formInput.toBeExplored}
             onChange={(e) => {
               setFormInput((prevState) => ({
                 ...prevState,
-                toBeDiscovered: e.target.checked,
+                toBeExplored: e.target.checked,
               }));
             }}
           />
@@ -151,8 +151,7 @@ export default function AdventureForm({ adventureObj }) {
 
         <SubmitButtonContainer>
           <Button type="submit">Submit Adventure</Button>
-          {/* {!adventureObj ? <Button type="submit">Add Some Discoveries!</Button> : ''} */}
-          <Link href="/adventures/personal/myAdventures" passHref>
+          <Link href={!adventureObj.toBeExplored ? '/adventures/personal/myAdventures' : '/toExplore/adventures'} passHref>
             <Button>Cancel</Button>
           </Link>
         </SubmitButtonContainer>
@@ -167,7 +166,7 @@ AdventureForm.propTypes = {
     firebaseKey: PropTypes.string,
     imageUrl: PropTypes.string,
     intensity: PropTypes.string,
-    toBeDiscovered: PropTypes.bool,
+    toBeExplored: PropTypes.bool,
     isPublic: PropTypes.bool,
     parentAdventureId: PropTypes.string,
     rating: PropTypes.string,
@@ -183,7 +182,7 @@ AdventureForm.defaultProps = {
     firebaseKey: '',
     imageUrl: 'Image',
     intensity: 'Intensity',
-    toBeDiscovered: true,
+    toBeExplored: false,
     isPublic: false,
     parentAdventureId: 'Parent Adventure Id',
     rating: '0',

@@ -9,8 +9,8 @@ import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
 
 // view single adventure form
 export default function ViewSingleAdventure() {
-  const [adventure, setAdventure] = useState();
-  const [discoveries, setDiscoveries] = useState();
+  const [adventure, setAdventure] = useState({});
+  const [discoveries, setDiscoveries] = useState([]);
 
   const router = useRouter();
   const { firebaseKey } = router.query;
@@ -27,9 +27,17 @@ export default function ViewSingleAdventure() {
 
   return (
     <>
-      <Link href="/adventures/personal/myAdventures" passHref>
-        <Button variant="info">My Adventures</Button>
-      </Link>
+      {adventure.toBeExplored !== true
+        ? (
+          <Link href="/adventures/personal/myAdventures" passHref>
+            <Button variant="info">My Discoveries</Button>
+          </Link>
+        )
+        : (
+          <Link href="/toExplore/adventures" passHref>
+            <Button variant="info">Discoveries to Find</Button>
+          </Link>
+        )}
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
         <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={onUpdate} />

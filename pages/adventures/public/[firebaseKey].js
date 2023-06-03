@@ -28,7 +28,7 @@ export default function ViewSinglePublicAdventure() {
       </Link>
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       {discoveries?.map((discovery) => (
-        <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate="" />
+        <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={() => {}} />
       ))}
     </>
   );
