@@ -21,6 +21,7 @@ export default function RandomAdventure() {
   const [triggerNewObj, setTriggerNewObj] = useState(false);
   const [isSurpriseOpen, setIsSurpriseOpen] = useState(false);
   const [isFormSelectedOpen, setIsFormSelectedOpen] = useState(false);
+  const [isSurpriseClicked, setIsSurpriseClicked] = useState(false);
   const { user } = useAuth();
 
   const getRandomObject = (array) => {
@@ -33,7 +34,9 @@ export default function RandomAdventure() {
   useEffect(() => {
     getAllAdventuresAndDiscoveries().then((objects) => {
       const filteredArray = filterOutUserObjects(objects);
-      setRandomObject(getRandomObject(filteredArray));
+      if (isSurpriseClicked) {
+        setRandomObject(getRandomObject(filteredArray));
+      }
     });
   }, [triggerNewObj]);
 
@@ -41,7 +44,6 @@ export default function RandomAdventure() {
     getAllAdventuresAndDiscoveries().then((objects) => {
       const filteredArray = filterOutUserObjects(objects);
       setObjectsArray(filteredArray);
-      setSelectedObject(getRandomObject(filteredArray));
     });
   }, []);
 
@@ -54,45 +56,58 @@ export default function RandomAdventure() {
   };
 
   const handleSurpriseMe = () => {
+    setIsSurpriseClicked(true);
     setTriggerNewObj(!triggerNewObj);
-    setIsFormSelectedOpen(false);
-    setIsSurpriseOpen(true);
+    setTimeout(() => {
+      setIsFormSelectedOpen(false);
+      setIsSurpriseOpen(true);
+    }, 150);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSurpriseOpen(false);
-    setIsFormSelectedOpen(true);
+    console.warn(formInput);
 
-    if (formInput.adventure_or_discovery === 'adventure') {
-      const array = objectsArray.filter((obj) => obj.title);
-      setObjectsArray(array);
-    } else if (formInput.adventure_or_discovery === 'discovery') {
-      const array = objectsArray.filter((obj) => obj.name);
-      setObjectsArray(array);
-    }
-
-    if (formInput.intensity) {
-      const array = objectsArray.filter((obj) => obj.intensity === formInput.intensity);
-      setObjectsArray(array);
-    }
-
-    if (formInput.type) {
-      const array = objectsArray.filter((obj) => obj.type === formInput.type);
-      setObjectsArray(array);
-    }
-
-    if (formInput.rating) {
-      const array = objectsArray.filter((obj) => obj.rating === formInput.rating);
-      setObjectsArray(array);
-    }
-
-    if (objectsArray.length > 0) {
-      setSelectedObject(getRandomObject(objectsArray));
-    } else {
-      console.warn('nothing matches these criteria');
+    getAllAdventuresAndDiscoveries().then((objects) => {
+      const filteredArray = filterOutUserObjects(objects);
+      console.warn(filteredArray);
+      setObjectsArray(filteredArray);
       console.warn(objectsArray);
-    }
+    }).then(() => {
+      if (formInput.adventure_or_discovery === 'adventure') {
+        const array = objectsArray.filter((obj) => obj.title);
+        setObjectsArray(array);
+      } else if (formInput.adventure_or_discovery === 'discovery') {
+        const array = objectsArray.filter((obj) => obj.name);
+        setObjectsArray(array);
+      }
+
+      if (formInput.intensity) {
+        const array = objectsArray.filter((obj) => obj.intensity === formInput.intensity);
+        setObjectsArray(array);
+      }
+
+      if (formInput.type) {
+        const array = objectsArray.filter((obj) => obj.type === formInput.type);
+        setObjectsArray(array);
+      }
+
+      if (formInput.rating) {
+        const array = objectsArray.filter((obj) => obj.rating === formInput.rating);
+        setObjectsArray(array);
+      }
+
+      if (objectsArray.length > 0) {
+        setSelectedObject(getRandomObject(objectsArray));
+      } else {
+        console.warn('nothing matches these criteria');
+      }
+      console.warn('filtering');
+    }).then(() => {
+      console.warn('rendering');
+      setIsSurpriseOpen(false);
+      setIsFormSelectedOpen(true);
+    });
   };
 
   return (
