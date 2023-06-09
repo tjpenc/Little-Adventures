@@ -21,6 +21,12 @@ body {
   background-color: #88effd;
 }
 
+.main_container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
 .adventures_button {
   border-radius: 50%;
 }

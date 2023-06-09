@@ -14,6 +14,7 @@ export default function ViewOtherUserProfile() {
   const { user } = useAuth();
   const router = useRouter();
   const { firebaseKey } = router.query;
+  // need to create way to filter through all disocveries and adventures for firebaseKey
 
   useEffect(() => {
     getAllAdventures().then(setAdventures);
