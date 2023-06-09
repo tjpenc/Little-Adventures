@@ -27,6 +27,9 @@ export default function ViewDiscoveries() {
         <Link href="/discoveries/personal/createDiscovery" passHref>
           <Button variant="primary" className="m-2">Add A Discovery!</Button>
         </Link>
+        <Link href="/googleMap" passHref>
+          <Button variant="primary" className="m-2">To Maps</Button>
+        </Link>
       </HeaderContainer>
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (

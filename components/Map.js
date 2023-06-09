@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import GoogleMapReact from 'google-map-react';
 import { useState, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { clientCredentials } from '../utils/client';
 import Marker from './MapMarker';
 import { getAllDiscoveries } from '../api/discoveriesData';
@@ -8,7 +9,7 @@ import { useAuth } from '../utils/context/authContext';
 
 const mapApiKey = clientCredentials.googleMapsApiKey;
 
-export default function Map() {
+export default function Map({ mapOnForm, onClick }) {
   const [discoveries, setDiscoveries] = useState([]);
   const { user } = useAuth();
 
@@ -33,14 +34,22 @@ export default function Map() {
         bootstrapURLKeys={{ key: mapApiKey }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-        onClick={(e) => {
-          console.warn(e.lat);
-        }}
+        onClick={onClick}
       >
-        {discoveries?.map((discovery) => (
-          <Marker key={discovery.firebaseKey} lat={discovery.lat} lng={discovery.lng} img={discovery.imageUrl} />
-        ))}
+        {mapOnForm ? ''
+          : discoveries?.map((discovery) => (
+            <Marker key={discovery.firebaseKey} lat={discovery.lat} lng={discovery.lng} img={discovery.imageUrl} />
+          ))}
       </GoogleMapReact>
     </div>
   );
 }
+
+Map.propTypes = {
+  mapOnForm: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+};
+
+Map.defaultProps = {
+  mapOnForm: false,
+};

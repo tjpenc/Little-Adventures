@@ -4,7 +4,7 @@ import Map from '../components/Map';
 export default function GoogleMap() {
   return (
     <MapContainer>
-      <Map />
+      <Map onClick={() => {}} />
     </MapContainer>
   );
 }
