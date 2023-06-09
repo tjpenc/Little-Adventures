@@ -1,3 +1,5 @@
+import RandomAdventureForm from '../components/forms/RandomAdventure';
+
 export default function RandomAdventure() {
-  return <p>Get a random adventure or discovery here!</p>;
+  return <RandomAdventureForm />;
 }

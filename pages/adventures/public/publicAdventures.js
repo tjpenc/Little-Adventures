@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllAdventures } from '../../../api/adventuresData';
 import LittleAdventureCard from '../../../components/cards/LittleAdventureCard';
 import { useAuth } from '../../../utils/context/authContext';
+import { getAllAdventuresAndDiscoveries } from '../../../api/mergedData';
 
 // view all public adventures
 export default function ViewPublicAdventures() {
@@ -15,6 +16,9 @@ export default function ViewPublicAdventures() {
 
   useEffect(() => {
     getPublicAdventures();
+    getAllAdventuresAndDiscoveries().then((array) => {
+      console.warn(array);
+    });
   }, []);
 
   return (

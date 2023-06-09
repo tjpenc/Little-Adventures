@@ -12,7 +12,7 @@ export default function AdventuresButton({ toExplore }) {
           </Link>
         ) : (
           <Link href="/adventures/personal/myAdventures" passHref>
-            <Button>Adventures</Button>
+            <Button className="adventures_button">Adventures</Button>
           </Link>
         )}
     </>
