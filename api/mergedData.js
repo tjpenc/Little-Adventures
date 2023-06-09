@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { clientCredentials } from '../utils/client';
-import { deleteSingleDiscovery } from './discoveriesData';
-import { deleteSingleAdventure } from './adventuresData';
+import { deleteSingleDiscovery, getAllDiscoveries } from './discoveriesData';
+import { deleteSingleAdventure, getAllAdventures } from './adventuresData';
 
 const dbUrl = clientCredentials.databaseURL;
 
@@ -21,7 +21,7 @@ const getDiscoveriesFromAdventure = (firebaseKey) => new Promise((resolve, rejec
 
 const deleteDiscoveriesOfAdventure = (firebaseKey) => new Promise((resolve, reject) => {
   getDiscoveriesFromAdventure(firebaseKey).then((adventuresArray) => {
-    const deleteAdventurePromises = adventuresArray.map((adventure) => deleteSingleDiscovery(adventure.firebaseKey));
+    const deleteAdventurePromises = adventuresArray?.map((adventure) => deleteSingleDiscovery(adventure.firebaseKey));
 
     Promise.all(deleteAdventurePromises).then(() => {
       deleteSingleAdventure(firebaseKey).then(resolve);
@@ -29,4 +29,20 @@ const deleteDiscoveriesOfAdventure = (firebaseKey) => new Promise((resolve, reje
   }).catch((error) => reject(error));
 });
 
-export { getAdventureFromDiscovery, getDiscoveriesFromAdventure, deleteDiscoveriesOfAdventure };
+const getAllAdventuresAndDiscoveries = () => new Promise((resolve, reject) => {
+  getAllAdventures().then((adventures) => {
+    const adventuresArray = adventures;
+    getAllDiscoveries().then((discoveries) => {
+      const allObjectsArray = adventuresArray.concat(discoveries);
+      resolve(allObjectsArray);
+    });
+  })
+    .catch(reject);
+});
+
+export {
+  getAdventureFromDiscovery,
+  getDiscoveriesFromAdventure,
+  deleteDiscoveriesOfAdventure,
+  getAllAdventuresAndDiscoveries,
+};
