@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { createDiscovery, updateDiscovery } from '../../api/discoveriesData';
 import { getUserAdventures } from '../../api/adventuresData';
+import Map from '../Map';
 
 const initialState = {
   adventureId: '',
@@ -19,11 +20,14 @@ const initialState = {
   toBeDiscovered: false,
   isPublic: false,
   rating: 0,
+  lng: 0,
+  lat: 0,
 };
 
 export default function DiscoveryForm({ discoveryObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [adventures, setAdventures] = useState([]);
+  const [isMapShowing, setIsMapShowing] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -44,6 +48,18 @@ export default function DiscoveryForm({ discoveryObj }) {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleMapClick = (e) => {
+    setFormInput((prevState) => ({
+      ...prevState,
+      lat: e.lat,
+      lng: e.lng,
+    }));
+  };
+
+  const toggleMap = () => {
+    setIsMapShowing(!isMapShowing);
   };
 
   const handleSubmit = (e) => {
@@ -117,7 +133,7 @@ export default function DiscoveryForm({ discoveryObj }) {
             value={formInput.adventureId}
             required
           >
-            <option value="">Where did you find this?</option>
+            <option value="">Which adventure was this on?</option>
             <option value="none">None</option>
             {
               adventures?.map((adventure) => (
@@ -130,6 +146,28 @@ export default function DiscoveryForm({ discoveryObj }) {
               ))
             }
           </Form.Select>
+        </FloatingLabel>
+
+        <FloatingLabel controlId="floatingInput1" label="Latitude" className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Latitude"
+            name="lat"
+            value={formInput.lat}
+            onChange={handleChange}
+            required
+          />
+        </FloatingLabel>
+
+        <FloatingLabel controlId="floatingInput1" label="Longitude" className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Longitude"
+            name="lng"
+            value={formInput.lng}
+            onChange={handleChange}
+            required
+          />
         </FloatingLabel>
 
         <FloatingLabel controlId="floatingInput1" label="Rating" className="mb-3">
@@ -189,6 +227,10 @@ export default function DiscoveryForm({ discoveryObj }) {
           </Link>
         </SubmitButtonContainer>
       </Form>
+      {isMapShowing
+        ? <><Button onClick={toggleMap}>Close map</Button> <Map mapOnForm onClick={handleMapClick} /></>
+        : <Button onClick={toggleMap}>See map</Button>}
+
     </FormInputContainer>
   );
 }
