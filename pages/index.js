@@ -34,6 +34,9 @@ function Home() {
         <Link href="/toExplore/toBeExplored" passHref>
           <Button variant="primary" className="m-2">To Be Explored</Button>
         </Link>
+        <Link href="/googleMap" passHref>
+          <Button variant="primary" className="m-2">To Maps</Button>
+        </Link>
       </NavigationButtonContainers>
       <FilterButtonContainer>
         <AdventuresButton toExplore={false} />
