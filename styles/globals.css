@@ -26,3 +26,7 @@ body {
   flex-wrap: wrap;
   height: 100vh;
 }
+
+.adventures_button {
+  border-radius: 50%;
+}
