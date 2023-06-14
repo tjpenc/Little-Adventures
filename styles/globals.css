@@ -18,15 +18,11 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: white;
 }
 
 .main_container {
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
-}
-
-.adventures_button {
-  border-radius: 50%;
 }

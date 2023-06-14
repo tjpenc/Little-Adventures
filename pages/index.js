@@ -1,9 +1,10 @@
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useAuth } from '../utils/context/authContext';
 import DiscoveriesButton from '../components/buttons/DiscoveriesButton';
 import AdventuresButton from '../components/buttons/AdventuresButton';
+import { BasicButton } from '../styles/commonStyles';
 
 function Home() {
   const { user } = useAuth();
@@ -11,7 +12,6 @@ function Home() {
   return (
     <HomePageContainer>
       <UserInfoContainer>
-        <h1>Hello {user.displayName}! </h1>
         <Card.Img
           style={{
             height: '50px',
@@ -20,22 +20,23 @@ function Home() {
           src={user.photoURL}
           alt="user"
         />
+        <h1>Hello {user.displayName}! </h1>
       </UserInfoContainer>
       <NavigationButtonContainers>
         <Link href="/adventures/public/publicAdventures" passHref>
-          <Button variant="primary" className="m-2">Explore Advenutres</Button>
+          <BasicButton className="flex-basis2">Explore Adventures</BasicButton>
         </Link>
         <Link href="/discoveries/public/publicDiscoveries" passHref>
-          <Button variant="primary" className="m-2">Explore Discoveries</Button>
+          <BasicButton className="flex-basis2">Explore Discoveries</BasicButton>
         </Link>
         <Link href="/randomAdventure" passHref>
-          <Button variant="primary" className="m-2">Find an Adventure</Button>
+          <BasicButton>Find an Adventure</BasicButton>
         </Link>
         <Link href="/toExplore/toBeExplored" passHref>
-          <Button variant="primary" className="m-2">To Be Explored</Button>
+          <BasicButton>My Explore Page</BasicButton>
         </Link>
         <Link href="/googleMap" passHref>
-          <Button variant="primary" className="m-2">To Maps</Button>
+          <BasicButton>Discovery Map</BasicButton>
         </Link>
       </NavigationButtonContainers>
       <FilterButtonContainer>
@@ -52,7 +53,6 @@ const HomePageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
-  border: solid black 3px;
   height: '90vh';
           padding: '30px';
           max-width: '400px';
@@ -60,19 +60,27 @@ const HomePageContainer = styled.div`
 `;
 
 const UserInfoContainer = styled.div`
-    border: solid black 3px;
-    flex-basis: 50%;
+    display: flex;
+    flex-basis: 100%;
+    justify-content: center;
+    align-items: center;
+    left: -100px;
+
+    > h1 {
+      margin-left: 30px;
+    }
 `;
 
 const NavigationButtonContainers = styled.div`
-    border: solid black 3px;
-    flex-basis: 50%;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-evenly;
 `;
 
 const FilterButtonContainer = styled.div`
   flex-basis: 100%;
   width: 100%;
   display: flex;
-  justify-content: space-around;
-  border: solid black 3px;
+  justify-content: space-evenly;
+  align-items: center;
 `;
