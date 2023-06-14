@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { BasicButton } from '../../styles/commonStyles';
 
 export default function DiscoveriesButton({ toExplore }) {
   return (
@@ -8,11 +8,11 @@ export default function DiscoveriesButton({ toExplore }) {
       {toExplore
         ? (
           <Link href="/toExplore/discoveries" passHref>
-            <Button>Discoveries</Button>
+            <BasicButton className="big_round_button">Discoveries to Find</BasicButton>
           </Link>
         ) : (
           <Link href="/discoveries/personal/myDiscoveries" passHref>
-            <Button>Discoveries</Button>
+            <BasicButton className="big_round_button">My Discoveries</BasicButton>
           </Link>
         )}
     </>

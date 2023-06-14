@@ -24,12 +24,21 @@ export default function Map({ mapOnForm, onClick }) {
       lat: 45,
       lng: -100,
     },
-    zoom: 11,
+    zoom: 7,
   };
 
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div style={{
+      height: '70vh',
+      width: '50%',
+      marginLeft: '15%',
+      position: 'absolute',
+      top: '50%',
+      transform: 'translate(0, -50%)',
+      border: 'solid black 3px',
+    }}
+    >
       <GoogleMapReact
         bootstrapURLKeys={{ key: mapApiKey }}
         defaultCenter={defaultProps.center}

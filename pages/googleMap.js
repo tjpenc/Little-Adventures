@@ -3,14 +3,14 @@ import Map from '../components/Map';
 
 export default function GoogleMap() {
   return (
-    <MapContainer>
+    <GoogleMapContainer>
+      <h1>Discovery Map</h1>
       <Map onClick={() => {}} />
-    </MapContainer>
+    </GoogleMapContainer>
   );
 }
 
-const MapContainer = styled.div`
+const GoogleMapContainer = styled.div`
   height: 100vh;
   width: 100%;
-  border: solid black 3px;
 `;
