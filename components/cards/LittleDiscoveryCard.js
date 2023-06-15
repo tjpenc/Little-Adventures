@@ -1,15 +1,19 @@
 import { PropTypes } from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
+import Image from 'next/image';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
   const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+
+  const numSlots = Number(discoveryObj.rating);
+  const ratingArray = Array(numSlots).fill(null);
 
   return (
     <LittleDiscoveryCardContainer>
@@ -22,24 +26,27 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
           <Card.Text>Details: {discoveryObj.details}</Card.Text>
-          <Card.Text>Rating: {discoveryObj.rating}</Card.Text>
+          <Card.Text>
+            <p>Rating: {ratingArray.map(() => (
+              <Image src="/star.png" width="10px" height="10px" />
+            ))}
+            </p>
+          </Card.Text>
           {discoveryObj.uid !== user.uid ? (
             <>
               <Link href={`/discoveries/public/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="primary" className="m-2">VIEW</Button>
+                <BasicButton variant="primary" className="m-2">VIEW</BasicButton>
               </Link>
             </>
           ) : (
             <>
               <Link href={`/discoveries/personal/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="primary" className="m-2">VIEW</Button>
+                <BasicButton variant="primary" className="m-2">VIEW</BasicButton>
               </Link>
               <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="info">EDIT</Button>
+                <BasicButton variant="info">EDIT</BasicButton>
               </Link>
-              <Button variant="danger" onClick={deleteThisDiscovery} className="m-2">
-                DELETE
-              </Button>
+              <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
             </>
           )}
         </Card.Body>
@@ -87,6 +94,5 @@ const LittleDiscoveryCardContainer = styled.div`
   width: 300px;
   height: 500px;
   display: flex;
-  border: solid black 2px;
   align-items: center;
 `;

@@ -6,6 +6,7 @@ import BigAdventureCard from '../../../components/cards/BigAdventureCard';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
 import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
+import { BasicButton } from '../../../styles/commonStyles';
 
 // view single adventure form
 export default function ViewSingleAdventure() {
@@ -30,7 +31,7 @@ export default function ViewSingleAdventure() {
       {adventure.toBeExplored !== true
         ? (
           <Link href="/adventures/personal/myAdventures" passHref>
-            <Button variant="info">My Discoveries</Button>
+            <BasicButton variant="info">My Adventures</BasicButton>
           </Link>
         )
         : (

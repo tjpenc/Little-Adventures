@@ -11,4 +11,7 @@ export default function CreateDiscovery() {
 }
 
 const AddDiscoveryContainer = styled.div`
+> h1 {
+  margin: 10px;
+}
 `;

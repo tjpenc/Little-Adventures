@@ -1,7 +1,7 @@
 // Create and Edit discovery form
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -9,6 +9,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { createDiscovery, updateDiscovery } from '../../api/discoveriesData';
 import { getUserAdventures } from '../../api/adventuresData';
 import Map from '../Map';
+import { BasicButton } from '../../styles/commonStyles';
 
 const initialState = {
   adventureId: '',
@@ -148,28 +149,6 @@ export default function DiscoveryForm({ discoveryObj }) {
           </Form.Select>
         </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput1" label="Latitude" className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="Latitude"
-            name="lat"
-            value={formInput.lat}
-            onChange={handleChange}
-            required
-          />
-        </FloatingLabel>
-
-        <FloatingLabel controlId="floatingInput1" label="Longitude" className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="Longitude"
-            name="lng"
-            value={formInput.lng}
-            onChange={handleChange}
-            required
-          />
-        </FloatingLabel>
-
         <FloatingLabel controlId="floatingInput1" label="Rating" className="mb-3">
           <Form.Select
             type="text"
@@ -187,6 +166,33 @@ export default function DiscoveryForm({ discoveryObj }) {
             <option value="5">5</option>
           </Form.Select>
         </FloatingLabel>
+
+        <CheckBoxesContainer>
+          <FloatingLabel controlId="floatingInput1" label="Latitude" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Latitude"
+              name="lat"
+              value={formInput.lat}
+              onChange={handleChange}
+              required
+            />
+          </FloatingLabel>
+
+          <FloatingLabel controlId="floatingInput1" label="Longitude" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Longitude"
+              name="lng"
+              value={formInput.lng}
+              onChange={handleChange}
+              required
+            />
+          </FloatingLabel>
+          {isMapShowing
+            ? <><BasicButton onClick={toggleMap}>Close map</BasicButton> <Map mapOnForm onClick={handleMapClick} style={{}} /></>
+            : <BasicButton onClick={toggleMap}>See map</BasicButton>}
+        </CheckBoxesContainer>
 
         <CheckBoxesContainer>
           <Form.Check
@@ -221,16 +227,12 @@ export default function DiscoveryForm({ discoveryObj }) {
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
-          <Button type="submit">Submit and View Discoveries</Button>
+          <BasicButton type="submit">Submit and View Discoveries</BasicButton>
           <Link href={!discoveryObj.toBeDiscovered ? '/discoveries/personal/myDiscoveries' : '/toExplore/discoveries'} passHref>
-            <Button>Cancel</Button>
+            <BasicButton>Cancel</BasicButton>
           </Link>
         </SubmitButtonContainer>
       </Form>
-      {isMapShowing
-        ? <><Button onClick={toggleMap}>Close map</Button> <Map mapOnForm onClick={handleMapClick} /></>
-        : <Button onClick={toggleMap}>See map</Button>}
-
     </FormInputContainer>
   );
 }
