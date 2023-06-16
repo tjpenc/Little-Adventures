@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 // import { Card } from 'react-bootstrap';
@@ -23,6 +24,7 @@ export default function NavBarAuth() {
       {isOpen ? (
         <>
           <LogoContainer>
+            <Image src="/backpack.png" width="20px" height="20px" />
             Little Adventures
             <button type="button" style={{ marginLeft: '20px' }} onClick={toggleNav}>Close</button>
           </LogoContainer>

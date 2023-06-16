@@ -27,7 +27,7 @@ export default function ViewDiscoveries() {
         <Link href="/discoveries/personal/createDiscovery" passHref>
           <BasicButton variant="primary" className="m-2">Add A Discovery!</BasicButton>
         </Link>
-        <Link href="/googleMap" passHref>
+        <Link href="/discoveries/personal/myGoogleMap" passHref>
           <BasicButton variant="primary" className="m-2">To Maps</BasicButton>
         </Link>
       </HeaderContainer>

@@ -3,20 +3,25 @@ import GoogleMapReact from 'google-map-react';
 import { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { clientCredentials } from '../utils/client';
-import Marker from './MapMarker';
-import { getAllDiscoveries } from '../api/discoveriesData';
+import MapMarker from './MapMarker';
+import { getAllDiscoveries, getUserDiscoveries } from '../api/discoveriesData';
 import { useAuth } from '../utils/context/authContext';
 
 const mapApiKey = clientCredentials.googleMapsApiKey;
 
-export default function Map({ mapOnForm, onClick }) {
+export default function Map({ mapOnForm, onClick, usersMap }) {
   const [discoveries, setDiscoveries] = useState([]);
   const { user } = useAuth();
 
-  console.warn(user);
-
   useEffect(() => {
-    getAllDiscoveries().then(setDiscoveries);
+    if (usersMap) {
+      getUserDiscoveries(user.uid).then((discoveriesArr) => {
+        const foundDiscoveries = discoveriesArr.filter((discovery) => discovery.toBeDiscovered === false);
+        setDiscoveries(foundDiscoveries);
+      });
+    } else {
+      getAllDiscoveries().then(setDiscoveries);
+    }
   }, []);
 
   const defaultProps = {
@@ -47,7 +52,7 @@ export default function Map({ mapOnForm, onClick }) {
       >
         {mapOnForm ? ''
           : discoveries?.map((discovery) => (
-            <Marker key={discovery.firebaseKey} lat={discovery.lat} lng={discovery.lng} img={discovery.imageUrl} />
+            <MapMarker key={discovery.firebaseKey} lat={discovery.lat} lng={discovery.lng} discoveryObj={discovery} />
           ))}
       </GoogleMapReact>
     </div>
@@ -56,9 +61,11 @@ export default function Map({ mapOnForm, onClick }) {
 
 Map.propTypes = {
   mapOnForm: PropTypes.bool,
+  usersMap: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
   mapOnForm: false,
+  usersMap: false,
 };

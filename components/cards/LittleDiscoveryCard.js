@@ -1,5 +1,7 @@
 import { PropTypes } from 'prop-types';
 import { Card } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -9,15 +11,38 @@ import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
+  const [ratingType, setRatingType] = useState('');
   const { user } = useAuth();
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
-
+  const router = useRouter();
   const numSlots = Number(discoveryObj.rating);
   const ratingArray = Array(numSlots).fill(null);
+  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+
+  const viewCard = () => {
+    if (discoveryObj.uid === user.uid) {
+      router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`);
+    } else {
+      router.push(`/discoveries/public/${discoveryObj.firebaseKey}`);
+    }
+  };
+
+  const getRatingType = () => {
+    if (discoveryObj.type === 'Flora' || discoveryObj.type === 'Fauna') {
+      setRatingType('Rarity');
+    } else if (discoveryObj.type === 'Landmark') {
+      setRatingType('Neatness');
+    } else {
+      setRatingType('Spooks');
+    }
+  };
+
+  useEffect(() => {
+    getRatingType();
+  }, [discoveryObj]);
 
   return (
     <LittleDiscoveryCardContainer>
-      <Card style={{ width: '18rem', margin: '10px' }}>
+      <Card style={{ width: '18rem', margin: '10px' }} onClick={viewCard}>
         {discoveryObj.uid !== user.uid
           ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
           : '' }
@@ -25,28 +50,22 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
-          <Card.Text>Details: {discoveryObj.details}</Card.Text>
           <Card.Text>
-            <p>Rating: {ratingArray.map(() => (
+            <p>{ratingType}: {ratingArray.map(() => (
               <Image src="/star.png" width="10px" height="10px" />
             ))}
             </p>
           </Card.Text>
-          {discoveryObj.uid !== user.uid ? (
+          {discoveryObj.uid === user.uid && (
             <>
-              <Link href={`/discoveries/public/${discoveryObj.firebaseKey}`} passHref>
-                <BasicButton variant="primary" className="m-2">VIEW</BasicButton>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href={`/discoveries/personal/${discoveryObj.firebaseKey}`} passHref>
-                <BasicButton variant="primary" className="m-2">VIEW</BasicButton>
-              </Link>
               <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-                <BasicButton variant="info">EDIT</BasicButton>
+                <BasicButton onClick={(e) => e.stopPropagation()}>
+                  <Image src="/edit.png" width="20px" height="20px" />
+                </BasicButton>
               </Link>
-              <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
+              <BasicButton onClick={(e) => e.stopPropagation()}>
+                <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
+              </BasicButton>
             </>
           )}
         </Card.Body>
