@@ -9,6 +9,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
+import Ratings from '../Ratings';
 
 export default function BigAdventureCard({ adventureObj }) {
   const { user } = useAuth();
@@ -31,7 +32,7 @@ export default function BigAdventureCard({ adventureObj }) {
             <Card.Title>{adventureObj.title}</Card.Title>
             <Card.Text>Intesity: {adventureObj.intensity}</Card.Text>
             <Card.Text>Details: {adventureObj.details}</Card.Text>
-            <Card.Text>Rating: {adventureObj.rating}</Card.Text>
+            <Card.Text><Ratings obj={adventureObj} /></Card.Text>
             {adventureObj.uid !== user.uid ? '' : (
               <>
                 <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>

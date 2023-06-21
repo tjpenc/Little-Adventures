@@ -1,7 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { Card } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -10,21 +9,11 @@ import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
+import Ratings from '../Ratings';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
-  const [ratingType, setRatingType] = useState('');
-  const [ratingArray, setRatingArray] = useState([]);
   const { user } = useAuth();
   const router = useRouter();
-  const numSlots = Number(discoveryObj.rating);
-  // const ratingArray = Array(numSlots).fill(null);
-  const createRatingArray = () => {
-    const array = [];
-    for (let i = 0; i < numSlots; i++) {
-      array.push(i);
-    }
-    setRatingArray(array);
-  };
 
   const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
     .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
@@ -38,21 +27,6 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
     }
   };
 
-  const getRatingType = () => {
-    if (discoveryObj.type === 'Flora' || discoveryObj.type === 'Fauna') {
-      setRatingType('Rarity');
-    } else if (discoveryObj.type === 'Landmark') {
-      setRatingType('Neatness');
-    } else {
-      setRatingType('Spooks');
-    }
-  };
-
-  useEffect(() => {
-    getRatingType();
-    createRatingArray();
-  }, [discoveryObj]);
-
   return (
     <LittleDiscoveryCardContainer>
       <Card style={{ width: '18rem', margin: '10px' }} onClick={viewCard}>
@@ -63,11 +37,7 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
-          <Card.Text>
-            {ratingType}: {ratingArray.map((i) => (
-              <Image key={`${discoveryObj.firebaseKey}${i}`} src="/star.png" width="10px" height="10px" />
-            ))}
-          </Card.Text>
+          <Card.Text><Ratings obj={discoveryObj} /></Card.Text>
           {discoveryObj.uid === user.uid && (
             <>
               <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>

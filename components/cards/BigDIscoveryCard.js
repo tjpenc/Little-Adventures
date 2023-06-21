@@ -7,6 +7,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
+import Ratings from '../Ratings';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
             <Card.Title>{discoveryObj.name}</Card.Title>
             <Card.Text>Type: {discoveryObj.type}</Card.Text>
             <Card.Text>Details: {discoveryObj.details}</Card.Text>
-            <Card.Text>Rating: {discoveryObj.rating}</Card.Text>
+            <Card.Text><Ratings obj={discoveryObj} /></Card.Text>
             {discoveryObj.uid !== user.uid ? (
               <>
                 <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>

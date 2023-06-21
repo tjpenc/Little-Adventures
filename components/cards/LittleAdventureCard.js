@@ -3,12 +3,12 @@ import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
+import Ratings from '../Ratings';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -22,9 +22,6 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
     .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
     .then(onUpdate);
 
-  const numSlots = Number(adventureObj.rating);
-  const ratingArray = Array(numSlots).fill(null);
-
   return (
     <AdventureContainer>
       <ImageContainer>
@@ -36,10 +33,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
         </h4>
         <p className="details">{adventureObj.details}</p>
         <p>{adventureObj.intensity}</p>
-        <p>Rating: {ratingArray.map(() => (
-          <Image src="/star.png" width="10px" height="10px" />
-        ))}
-        </p>
+        <Ratings obj={adventureObj} />
       </AdventureInfo>
       <MenuContainer>
         <MenuButton onClick={toggleMenu}>⋮</MenuButton>

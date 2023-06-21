@@ -23,8 +23,16 @@ export default function MapMarker({ discoveryObj }) {
 
 MapMarker.propTypes = {
   discoveryObj: PropTypes.shape({
-    imageUrl: PropTypes.string.isRequired,
-    firebaseKey: PropTypes.string.isRequired,
-    uid: PropTypes.string.isRequired,
-  }).isRequired,
+    imageUrl: PropTypes.string,
+    firebaseKey: PropTypes.string,
+    uid: PropTypes.string,
+  }),
+};
+
+MapMarker.defaultProps = {
+  discoveryObj: {
+    imageUrl: '',
+    firebaseKey: '',
+    uid: '',
+  },
 };
