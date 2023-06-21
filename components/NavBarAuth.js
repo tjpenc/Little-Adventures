@@ -62,7 +62,7 @@ export default function NavBarAuth() {
               <Link href="/adventures/public/publicAdventures" passHref>
                 <NavLink>All Adventures</NavLink>
               </Link>
-              <Link href="/discoveries/public/publicDiscoveries" passHref>
+              <Link href="/discoveries/personal/myDiscoveries" passHref>
                 <NavLink>All Discoveries</NavLink>
               </Link>
             </NewGroupContainer>

@@ -9,14 +9,26 @@ import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   const [ratingType, setRatingType] = useState('');
+  const [ratingArray, setRatingArray] = useState([]);
   const { user } = useAuth();
   const router = useRouter();
   const numSlots = Number(discoveryObj.rating);
-  const ratingArray = Array(numSlots).fill(null);
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+  // const ratingArray = Array(numSlots).fill(null);
+  const createRatingArray = () => {
+    const array = [];
+    for (let i = 0; i < numSlots; i++) {
+      array.push(i);
+    }
+    setRatingArray(array);
+  };
+
+  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
+    .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
+    .then(onUpdate);
 
   const viewCard = () => {
     if (discoveryObj.uid === user.uid) {
@@ -38,6 +50,7 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
 
   useEffect(() => {
     getRatingType();
+    createRatingArray();
   }, [discoveryObj]);
 
   return (
@@ -51,10 +64,9 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
           <Card.Text>
-            <p>{ratingType}: {ratingArray.map(() => (
-              <Image src="/star.png" width="10px" height="10px" />
+            {ratingType}: {ratingArray.map((i) => (
+              <Image key={`${discoveryObj.firebaseKey}${i}`} src="/star.png" width="10px" height="10px" />
             ))}
-            </p>
           </Card.Text>
           {discoveryObj.uid === user.uid && (
             <>
@@ -88,6 +100,7 @@ LittleDiscoveryCard.propTypes = {
     type: PropTypes.string,
     uid: PropTypes.string,
     rating: PropTypes.string,
+    filePath: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };
@@ -106,6 +119,7 @@ LittleDiscoveryCard.defaultProps = {
     type: 'Flora',
     uid: 'UID',
     rating: 3,
+    filePath: '',
   },
 };
 

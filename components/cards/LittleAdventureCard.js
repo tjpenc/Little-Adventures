@@ -5,10 +5,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../utils/context/authContext';
-// import { deleteSingleAdventure } from '../../api/adventuresData';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,7 +18,9 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
     setShowMenu(!showMenu);
   };
 
-  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(onUpdate);
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
+    .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
+    .then(onUpdate);
 
   const numSlots = Number(adventureObj.rating);
   const ratingArray = Array(numSlots).fill(null);
@@ -77,6 +79,7 @@ LittleAdventureCard.propTypes = {
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
+    filePath: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };
@@ -94,6 +97,7 @@ LittleAdventureCard.defaultProps = {
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',
+    filePath: '',
   },
 };
 

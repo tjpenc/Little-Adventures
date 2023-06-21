@@ -10,6 +10,8 @@ import { createDiscovery, updateDiscovery } from '../../api/discoveriesData';
 import { getUserAdventures } from '../../api/adventuresData';
 import Map from '../Map';
 import { BasicButton } from '../../styles/commonStyles';
+import PhotoUploadInput from '../PhotoUploadInput';
+import photoStorage from '../../utils/photoStorage';
 
 const initialState = {
   adventureId: '',
@@ -23,12 +25,16 @@ const initialState = {
   rating: 0,
   lng: 0,
   lat: 0,
+  filePath: '',
 };
 
 export default function DiscoveryForm({ discoveryObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [adventures, setAdventures] = useState([]);
   const [isMapShowing, setIsMapShowing] = useState(false);
+  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [filePath, setFilePath] = useState('');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -65,12 +71,25 @@ export default function DiscoveryForm({ discoveryObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (discoveryObj.firebaseKey) {
-      updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
-    } else {
-      const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
-      createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
-    }
+    const updateThisDiscovery = () => updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
+    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {
+      if (discoveryObj.firebaseKey) {
+        if (discoveryObj.filePath !== formInput.filePath) {
+          photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
+        } else {
+          updateThisDiscovery();
+        }
+      } else {
+        const payload = {
+          ...formInput,
+          uid: user.uid,
+          timeSubmitted: Date().toString(),
+          imageUrl,
+          filePath,
+        };
+        createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+      }
+    });
   };
 
   return (
@@ -98,7 +117,7 @@ export default function DiscoveryForm({ discoveryObj }) {
           />
         </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput1" label="Image" className="mb-3">
+        {/* <FloatingLabel controlId="floatingInput1" label="Image" className="mb-3">
           <Form.Control
             type="text"
             placeholder="Discovery Name"
@@ -106,7 +125,9 @@ export default function DiscoveryForm({ discoveryObj }) {
             value={formInput.imageUrl}
             onChange={handleChange}
           />
-        </FloatingLabel>
+        </FloatingLabel> */}
+
+        <PhotoUploadInput setFile={setFile} />
 
         <FloatingLabel controlId="floatingInput1" label="Type" className="mb-3">
           <Form.Select
@@ -250,6 +271,7 @@ DiscoveryForm.propTypes = {
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
+    filePath: PropTypes.string,
   }),
 };
 
@@ -266,6 +288,7 @@ DiscoveryForm.defaultProps = {
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',
+    filePath: '',
   },
 };
 

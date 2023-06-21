@@ -8,13 +8,16 @@ import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function BigAdventureCard({ adventureObj }) {
   const { user } = useAuth();
   const router = useRouter();
-  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(() => {
-    router.push('/adventures/personal/myAdventures');
-  });
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
+    .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
+    .then(() => {
+      router.push('/adventures/personal/myAdventures');
+    });
 
   return (
     <>
@@ -59,6 +62,7 @@ BigAdventureCard.propTypes = {
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
+    filePath: PropTypes.string,
   }),
 };
 
@@ -75,6 +79,7 @@ BigAdventureCard.defaultProps = {
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',
+    filePath: '',
   },
 };
 

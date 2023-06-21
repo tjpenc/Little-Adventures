@@ -6,10 +6,13 @@ import { AddToExploreContainer } from '../../styles/commonStyles';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
+    .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
+    .then(onUpdate);
 
   return (
     <>
@@ -65,6 +68,7 @@ BigDiscoveryCard.propTypes = {
     type: PropTypes.string,
     uid: PropTypes.string,
     rating: PropTypes.string,
+    filePath: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };
@@ -84,6 +88,7 @@ BigDiscoveryCard.defaultProps = {
     type: 'Flora',
     uid: 'UID',
     rating: 3,
+    filePath: '',
   },
 };
 
