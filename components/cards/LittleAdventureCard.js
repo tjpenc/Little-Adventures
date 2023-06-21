@@ -3,11 +3,12 @@ import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../../utils/context/authContext';
-// import { deleteSingleAdventure } from '../../api/adventuresData';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,36 +18,51 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
     setShowMenu(!showMenu);
   };
 
-  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey).then(onUpdate);
+  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
+    .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
+    .then(onUpdate);
+
+  const numSlots = Number(adventureObj.rating);
+  const ratingArray = Array(numSlots).fill(null);
 
   return (
-    <MessageContainer>
-      <Card.Img variant="top" src={adventureObj.imageUrl} alt="image" style={{ height: '50px', width: '50px' }} />
-      <MessageInfo>
+    <AdventureContainer>
+      <ImageContainer>
+        <Card.Img variant="top" src={adventureObj.imageUrl} alt="image" style={{ height: '50px', width: '50px', borderRadius: '8px' }} />
+      </ImageContainer>
+      <AdventureInfo>
         <h4>
           {adventureObj.title}<span> {adventureObj.timeSubmitted}</span>
         </h4>
-      </MessageInfo>
-      <MenuButton onClick={toggleMenu}>⋮</MenuButton>
-      {showMenu ? (
-        <OptionsMenu onMouseLeave={toggleMenu}>
-          <ul>
-            {adventureObj.uid !== user.uid ? (
-              <>
-                <OptionItem><Link href={`/adventures/public/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
-                <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
-              </>
-            ) : (
-              <>
-                <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
-                <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
-                <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
-              </>
-            )}
-          </ul>
-        </OptionsMenu>
-      ) : ''}
-    </MessageContainer>
+        <p className="details">{adventureObj.details}</p>
+        <p>{adventureObj.intensity}</p>
+        <p>Rating: {ratingArray.map(() => (
+          <Image src="/star.png" width="10px" height="10px" />
+        ))}
+        </p>
+      </AdventureInfo>
+      <MenuContainer>
+        <MenuButton onClick={toggleMenu}>⋮</MenuButton>
+        {showMenu ? (
+          <OptionsMenu onMouseLeave={toggleMenu}>
+            <ul>
+              {adventureObj.uid !== user.uid ? (
+                <>
+                  <OptionItem><Link href={`/adventures/public/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
+                  <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
+                </>
+              ) : (
+                <>
+                  <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
+                  <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
+                  <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
+                </>
+              )}
+            </ul>
+          </OptionsMenu>
+        ) : ''}
+      </MenuContainer>
+    </AdventureContainer>
   );
 }
 
@@ -63,6 +79,7 @@ LittleAdventureCard.propTypes = {
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
+    filePath: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };
@@ -80,22 +97,29 @@ LittleAdventureCard.defaultProps = {
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',
+    filePath: '',
   },
 };
 
-const MessageContainer = styled.div`
+const AdventureContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
-
-  > img {
-    height: 50px;
-    border-radius: 8px;
-  }
+  padding: 4%;
+  border: solid black 3px;
+  width: 70%;
+  margin: 0 60px;
 `;
 
-const MessageInfo = styled.div`
-  padding-left: 10px;
+const ImageContainer = styled.div`
+  flex-basis: 15%;
+  height: 50%;
+  width: 15%;
+`;
+
+const AdventureInfo = styled.div`
+  width: 70%;
+  flex-basis: 80%;
+  padding-left: 2%;
   font-size: 15px;
 
   > h4 {
@@ -108,6 +132,16 @@ const MessageInfo = styled.div`
     margin-left: 4px;
     font-size: 10px;
   }
+  > .details {
+    width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+`;
+
+const MenuContainer = styled.div`
+ flex-basis: 2%;
 `;
 
 const MenuButton = styled.button`

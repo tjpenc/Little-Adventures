@@ -1,19 +1,61 @@
 import { PropTypes } from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import Image from 'next/image';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
+import photoStorage from '../../utils/photoStorage';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
+  const [ratingType, setRatingType] = useState('');
+  const [ratingArray, setRatingArray] = useState([]);
   const { user } = useAuth();
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey).then(onUpdate);
+  const router = useRouter();
+  const numSlots = Number(discoveryObj.rating);
+  // const ratingArray = Array(numSlots).fill(null);
+  const createRatingArray = () => {
+    const array = [];
+    for (let i = 0; i < numSlots; i++) {
+      array.push(i);
+    }
+    setRatingArray(array);
+  };
+
+  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
+    .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
+    .then(onUpdate);
+
+  const viewCard = () => {
+    if (discoveryObj.uid === user.uid) {
+      router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`);
+    } else {
+      router.push(`/discoveries/public/${discoveryObj.firebaseKey}`);
+    }
+  };
+
+  const getRatingType = () => {
+    if (discoveryObj.type === 'Flora' || discoveryObj.type === 'Fauna') {
+      setRatingType('Rarity');
+    } else if (discoveryObj.type === 'Landmark') {
+      setRatingType('Neatness');
+    } else {
+      setRatingType('Spooks');
+    }
+  };
+
+  useEffect(() => {
+    getRatingType();
+    createRatingArray();
+  }, [discoveryObj]);
 
   return (
     <LittleDiscoveryCardContainer>
-      <Card style={{ width: '18rem', margin: '10px' }}>
+      <Card style={{ width: '18rem', margin: '10px' }} onClick={viewCard}>
         {discoveryObj.uid !== user.uid
           ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
           : '' }
@@ -21,25 +63,21 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
-          <Card.Text>Details: {discoveryObj.details}</Card.Text>
-          <Card.Text>Rating: {discoveryObj.rating}</Card.Text>
-          {discoveryObj.uid !== user.uid ? (
+          <Card.Text>
+            {ratingType}: {ratingArray.map((i) => (
+              <Image key={`${discoveryObj.firebaseKey}${i}`} src="/star.png" width="10px" height="10px" />
+            ))}
+          </Card.Text>
+          {discoveryObj.uid === user.uid && (
             <>
-              <Link href={`/discoveries/public/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="primary" className="m-2">VIEW</Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href={`/discoveries/personal/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="primary" className="m-2">VIEW</Button>
-              </Link>
               <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-                <Button variant="info">EDIT</Button>
+                <BasicButton onClick={(e) => e.stopPropagation()}>
+                  <Image src="/edit.png" width="20px" height="20px" />
+                </BasicButton>
               </Link>
-              <Button variant="danger" onClick={deleteThisDiscovery} className="m-2">
-                DELETE
-              </Button>
+              <BasicButton onClick={(e) => e.stopPropagation()}>
+                <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
+              </BasicButton>
             </>
           )}
         </Card.Body>
@@ -62,6 +100,7 @@ LittleDiscoveryCard.propTypes = {
     type: PropTypes.string,
     uid: PropTypes.string,
     rating: PropTypes.string,
+    filePath: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };
@@ -80,6 +119,7 @@ LittleDiscoveryCard.defaultProps = {
     type: 'Flora',
     uid: 'UID',
     rating: 3,
+    filePath: '',
   },
 };
 
@@ -87,6 +127,5 @@ const LittleDiscoveryCardContainer = styled.div`
   width: 300px;
   height: 500px;
   display: flex;
-  border: solid black 2px;
   align-items: center;
 `;

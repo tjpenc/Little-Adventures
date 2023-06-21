@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { createAdventure, updateAdventure } from '../../api/adventuresData';
+import { BasicButton } from '../../styles/commonStyles';
 
 const initialState = {
   details: '',
@@ -150,9 +151,9 @@ export default function AdventureForm({ adventureObj }) {
         </CheckBoxesContainer>
 
         <SubmitButtonContainer>
-          <Button type="submit">Submit Adventure</Button>
+          <BasicButton type="submit">Submit Adventure</BasicButton>
           <Link href={!adventureObj.toBeExplored ? '/adventures/personal/myAdventures' : '/toExplore/adventures'} passHref>
-            <Button>Cancel</Button>
+            <BasicButton>Cancel</BasicButton>
           </Link>
         </SubmitButtonContainer>
       </Form>

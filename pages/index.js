@@ -23,6 +23,9 @@ function Home() {
         <h1>Hello {user.displayName}! </h1>
       </UserInfoContainer>
       <NavigationButtonContainers>
+        <Link href="/testPage" passHref>
+          <BasicButton className="flex-basis2">TestPage</BasicButton>
+        </Link>
         <Link href="/adventures/public/publicAdventures" passHref>
           <BasicButton className="flex-basis2">Explore Adventures</BasicButton>
         </Link>

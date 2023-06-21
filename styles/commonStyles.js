@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 const AddToExploreContainer = styled.div`
-
+  display: transparent;
 `;
 
 const HeaderContainer = styled.div`
-
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 const BasicButton = styled.button`
