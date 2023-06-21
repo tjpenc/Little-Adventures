@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { createAdventure, updateAdventure } from '../../api/adventuresData';
 import { BasicButton } from '../../styles/commonStyles';
+import PhotoUploadInput from '../PhotoUploadInput';
+import photoStorage from '../../utils/photoStorage';
 
 const initialState = {
   details: '',
@@ -20,10 +22,14 @@ const initialState = {
   timeSubmitted: '',
   title: '',
   uid: '',
+  filePath: '',
 };
 
 export default function AdventureForm({ adventureObj }) {
   const [formInput, setFormInput] = useState(initialState);
+  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [filePath, setFilePath] = useState('');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -41,10 +47,25 @@ export default function AdventureForm({ adventureObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const updateThisAdventure = () => updateAdventure(formInput).then(() => router.push(`/adventures/personal/${adventureObj.firebaseKey}`));
+    console.warn('submitted');
+    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {});
+    console.warn('moving on');
     if (adventureObj.firebaseKey) {
-      updateAdventure(formInput).then(() => router.push(`/adventures/personal/${adventureObj.firebaseKey}`));
+      if (adventureObj.filePath !== formInput.filePath) {
+        photoStorage.delete(adventureObj.filePath).then(updateThisAdventure);
+      } else {
+        updateThisAdventure();
+      }
     } else {
-      const payload = { ...formInput, uid: user.uid, timeSubmitted: Date().toString() };
+      console.warn('creating payload');
+      const payload = {
+        ...formInput,
+        uid: user.uid,
+        timeSubmitted: Date().toString(),
+        imageUrl,
+        filePath,
+      };
       createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
     }
   };
@@ -73,7 +94,7 @@ export default function AdventureForm({ adventureObj }) {
             required
           />
         </FloatingLabel>
-
+        {/*
         <FloatingLabel controlId="floatingInput1" label="Image" className="mb-3">
           <Form.Control
             type="text"
@@ -82,7 +103,9 @@ export default function AdventureForm({ adventureObj }) {
             value={formInput.imageUrl}
             onChange={handleChange}
           />
-        </FloatingLabel>
+        </FloatingLabel> */}
+
+        <PhotoUploadInput setFile={setFile} />
 
         <FloatingLabel controlId="floatingInput1" label="Intensity" className="mb-3">
           <Form.Select
@@ -174,6 +197,7 @@ AdventureForm.propTypes = {
     timeSubmitted: PropTypes.string,
     title: PropTypes.string,
     uid: PropTypes.string,
+    filePath: PropTypes.string,
   }),
 };
 
@@ -190,6 +214,7 @@ AdventureForm.defaultProps = {
     timeSubmitted: 'Time Submitted',
     title: 'Adventure Title',
     uid: 'UID',
+    filePath: '',
   },
 };
 
