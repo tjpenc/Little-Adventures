@@ -27,8 +27,12 @@ export default function AddToExploreButton({ firebaseKey, isDiscovery }) {
 }
 
 AddToExploreButton.propTypes = {
-  firebaseKey: PropTypes.string.isRequired,
+  firebaseKey: PropTypes.string,
   isDiscovery: PropTypes.bool.isRequired,
+};
+
+AddToExploreButton.defaultProps = {
+  firebaseKey: '',
 };
 // get object from outside the function
 // create clone of the object
