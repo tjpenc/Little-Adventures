@@ -72,24 +72,23 @@ export default function DiscoveryForm({ discoveryObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const updateThisDiscovery = () => updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
-    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {
-      if (discoveryObj.firebaseKey) {
-        if (discoveryObj.filePath !== formInput.filePath) {
-          photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
-        } else {
-          updateThisDiscovery();
-        }
+    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {});
+    if (discoveryObj.firebaseKey) {
+      if (discoveryObj.filePath !== formInput.filePath) {
+        photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
       } else {
-        const payload = {
-          ...formInput,
-          uid: user.uid,
-          timeSubmitted: Date().toString(),
-          imageUrl,
-          filePath,
-        };
-        createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+        updateThisDiscovery();
       }
-    });
+    } else {
+      const payload = {
+        ...formInput,
+        uid: user.uid,
+        timeSubmitted: Date().toString(),
+        imageUrl,
+        filePath,
+      };
+      createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+    }
   };
 
   return (
