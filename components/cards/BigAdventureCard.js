@@ -42,21 +42,6 @@ export default function BigAdventureCard({ adventureObj }) {
     });
   };
 
-  const extraPictures = [
-    {
-      filePath: '/compass.png',
-      imageUrl: '/compass.png',
-    },
-    {
-      filePath: '/cryptid.png',
-      imageUrl: '/cryptid.png',
-    },
-    {
-      filePath: 'string',
-      imageUrl: '/tree.png',
-    },
-  ];
-
   const scrollUp = () => {
     if (indexCounterRef.current > 0) {
       indexCounterRef.current -= 1;
@@ -65,7 +50,7 @@ export default function BigAdventureCard({ adventureObj }) {
   };
 
   const scrollDown = () => {
-    if (indexCounterRef.current < extraPictures.length - 1) {
+    if (indexCounterRef.current < adventureObj.extraPictures.length) {
       indexCounterRef.current += 1;
       scrollToIndex(indexCounterRef.current);
     }
