@@ -33,8 +33,6 @@ export default function DiscoveryForm({ discoveryObj }) {
   const [adventures, setAdventures] = useState([]);
   const [isMapShowing, setIsMapShowing] = useState(false);
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [filePath, setFilePath] = useState('');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -69,25 +67,103 @@ export default function DiscoveryForm({ discoveryObj }) {
     setIsMapShowing(!isMapShowing);
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const updateThisDiscovery = () => updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
+  //   const createThisDiscovery = (payload) => createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+  //   photoStorage.upload(file).then((imageObj) => {
+  //     if (discoveryObj.firebaseKey) {
+  //       if (discoveryObj.filePath !== formInput.filePath) {
+  //         photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
+  //       } else {
+  //         updateThisDiscovery();
+  //       }
+  //     } else {
+  //       const payload = {
+  //         ...formInput,
+  //         uid: user.uid,
+  //         timeSubmitted: Date().toString(),
+  //         imageUrl: imageObj.url,
+  //         filePath: imageObj.path,
+  //       };
+  //       createThisDiscovery(payload);
+  //     }
+  //   });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const updateThisDiscovery = () => updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
+  //   const createThisDiscovery = (payload) => createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+  //   if (file) {
+  //     photoStorage.upload(file).then((imageObj) => {
+  //       setFormInput((prevState) => ({
+  //         ...prevState,
+  //         imageUrl: imageObj.imageUrl,
+  //         filePath: imageObj.filePath,
+  //       }));
+  //     }).then(() => {
+  //       if (discoveryObj.firebaseKey) {
+  //         photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
+  //       } else {
+  //         const payload = {
+  //           ...formInput,
+  //           uid: user.uid,
+  //           timeSubmitted: Date().toString(),
+  //         };
+  //         createThisDiscovery(payload);
+  //       }
+  //     });
+  //   } else if (discoveryObj.firebaseKey) {
+  //     updateThisDiscovery();
+  //   } else {
+  //     const payload = {
+  //       ...formInput,
+  //       uid: user.uid,
+  //       timeSubmitted: Date().toString(),
+  //     };
+  //     createThisDiscovery(payload);
+  //   }
+  // };
+  const mutateFormInput = (newSource) => {
+    const newInput = formInput;
+    delete newInput.imageUrl;
+    delete newInput.filePath;
+    newInput.imageUrl = newSource.imageUrl;
+    newInput.filePath = newSource.filePath;
+    console.warn(newInput);
+    return newInput;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updateThisDiscovery = () => updateDiscovery(formInput).then(() => router.push(`/discoveries/personal/${discoveryObj.firebaseKey}`));
-    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {});
-    if (discoveryObj.firebaseKey) {
-      if (discoveryObj.filePath !== formInput.filePath) {
-        photoStorage.delete(discoveryObj.filePath).then(updateThisDiscovery);
-      } else {
-        updateThisDiscovery();
-      }
+    const createThisDiscovery = (payload) => createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+    if (discoveryObj.firebaseKey && file) {
+      photoStorage.upload(file).then((imageObj) => {
+        photoStorage.delete(discoveryObj.filePath);
+        updateThisDiscovery(mutateFormInput(imageObj));
+      });
+    } else if (discoveryObj.firebaseKey) {
+      updateThisDiscovery();
+    } else if (file) {
+      photoStorage.upload(file).then((imageObj) => {
+        const payload = {
+          ...formInput,
+          uid: user.uid,
+          timeSubmitted: Date().toString(),
+          imageUrl: imageObj.imageUrl,
+          filePath: imageObj.filePath,
+        };
+        createThisDiscovery(payload);
+      });
     } else {
       const payload = {
         ...formInput,
         uid: user.uid,
         timeSubmitted: Date().toString(),
-        imageUrl,
-        filePath,
       };
-      createDiscovery(payload).then(() => router.push('/discoveries/personal/myDiscoveries'));
+      createThisDiscovery(payload);
     }
   };
 

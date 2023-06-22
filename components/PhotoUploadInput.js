@@ -1,13 +1,10 @@
-// import { useState } from 'react';
 import PropTypes from 'prop-types';
-// import photoStorage from '../utils/photoStorage';
 
 // Photo Upload component
 
-export default function PhotoUploadInput({ setFile }) {
-  // const [file, setFile] = useState(null);
-  // const [isUploaded, setIsUploaded] = useState(false);
-
+export default function PhotoUploadInput({
+  setFile, uploadBtn, handleUpload, isUploaded,
+}) {
   // Handles selecting an image
   const handleChange = (e) => {
     console.warn(e.target.files[0]);
@@ -20,18 +17,23 @@ export default function PhotoUploadInput({ setFile }) {
     <>
       <div>
         <input type="file" onChange={handleChange} />
-        {/* <button type="button" color="green" onClick={handleUpload}>
-          Upload Photo
-        </button>
-        {isUploaded && <span>File Uploaded!</span>} */}
+        {uploadBtn
+        && <button type="button" color="green" onClick={handleUpload}>Upload Photo</button>}
+        {isUploaded && <span> File Uploaded!</span>}
       </div>
     </>
   );
 }
 
 PhotoUploadInput.propTypes = {
-  // handleUpload: PropTypes.func.isRequired,
-  // setImageUrl: PropTypes.func.isRequired,
-  // setFilePath: PropTypes.func.isRequired,
   setFile: PropTypes.func.isRequired,
+  handleUpload: PropTypes.func,
+  uploadBtn: PropTypes.bool,
+  isUploaded: PropTypes.bool,
+};
+
+PhotoUploadInput.defaultProps = {
+  uploadBtn: false,
+  isUploaded: false,
+  handleUpload: () => {},
 };
