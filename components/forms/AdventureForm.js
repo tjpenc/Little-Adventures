@@ -23,13 +23,15 @@ const initialState = {
   title: '',
   uid: '',
   filePath: '',
+  extraPictures: [{
+    imageUrl: '',
+    filePath: '',
+  }],
 };
 
 export default function AdventureForm({ adventureObj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [filePath, setFilePath] = useState('');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -45,28 +47,44 @@ export default function AdventureForm({ adventureObj }) {
     }));
   };
 
+  const mutateFormInput = (newSource) => {
+    const newInput = formInput;
+    delete newInput.imageUrl;
+    delete newInput.filePath;
+    newInput.imageUrl = newSource.imageUrl;
+    newInput.filePath = newSource.filePath;
+    return newInput;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updateThisAdventure = () => updateAdventure(formInput).then(() => router.push(`/adventures/personal/${adventureObj.firebaseKey}`));
-    console.warn('submitted');
-    photoStorage.upload(file, setImageUrl, setFilePath).then(() => {});
-    console.warn('moving on');
-    if (adventureObj.firebaseKey) {
-      if (adventureObj.filePath !== formInput.filePath) {
-        photoStorage.delete(adventureObj.filePath).then(updateThisAdventure);
-      } else {
-        updateThisAdventure();
-      }
+    const createThisAdventure = (payload) => createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
+    if (adventureObj.firebaseKey && file) {
+      photoStorage.upload(file).then((imageObj) => {
+        photoStorage.delete(adventureObj.filePath);
+        updateThisAdventure(mutateFormInput(imageObj));
+      });
+    } else if (adventureObj.firebaseKey) {
+      updateThisAdventure();
+    } else if (file) {
+      photoStorage.upload(file).then((imageObj) => {
+        const payload = {
+          ...formInput,
+          uid: user.uid,
+          timeSubmitted: Date().toString(),
+          imageUrl: imageObj.imageUrl,
+          filePath: imageObj.filePath,
+        };
+        createThisAdventure(payload);
+      });
     } else {
-      console.warn('creating payload');
       const payload = {
         ...formInput,
         uid: user.uid,
         timeSubmitted: Date().toString(),
-        imageUrl,
-        filePath,
       };
-      createAdventure(payload).then(() => router.push('/adventures/personal/myAdventures'));
+      createThisAdventure(payload);
     }
   };
 

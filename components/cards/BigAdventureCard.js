@@ -4,21 +4,71 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 // import { deleteSingleAdventure } from '../../api/adventuresData';
+import { useEffect, useRef, useState } from 'react';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import PhotoUploadInput from '../PhotoUploadInput';
+import { updateAdventure } from '../../api/adventuresData';
 
 export default function BigAdventureCard({ adventureObj }) {
+  const [file, setFile] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(true);
+  const listRef = useRef(null);
+  const indexCounterRef = useRef(0);
   const { user } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsUploaded(false);
+  }, []);
+
   const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
     .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
     .then(() => {
       router.push('/adventures/personal/myAdventures');
     });
+
+  const scrollToIndex = (index) => {
+    const listNode = listRef.current;
+    const imgNode = listNode.querySelectorAll('li > img')[index];
+    imgNode.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  };
+
+  const scrollUp = () => {
+    if (indexCounterRef.current > 0) {
+      indexCounterRef.current -= 1;
+      scrollToIndex(indexCounterRef.current);
+    }
+  };
+
+  const scrollDown = () => {
+    if (indexCounterRef.current < adventureObj.extraPictures.length) {
+      indexCounterRef.current += 1;
+      scrollToIndex(indexCounterRef.current);
+    }
+  };
+
+  const handleUpload = () => {
+    photoStorage.upload(file).then((imageObj) => {
+      if (adventureObj.extraPictures) {
+        const newArray = adventureObj.extraPictures.push(imageObj);
+        const payload = { extraPictures: newArray, firebaseKey: adventureObj.firebaseKey };
+        updateAdventure(payload).then(setIsUploaded(true));
+      } else {
+        const newArray = [imageObj];
+        const payload = { extraPictures: newArray, firebaseKey: adventureObj.firebaseKey };
+        updateAdventure(payload).then(setIsUploaded(true));
+      }
+    });
+  };
 
   return (
     <>
@@ -27,7 +77,22 @@ export default function BigAdventureCard({ adventureObj }) {
           {adventureObj.uid !== user.uid
             ? <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
             : ''}
-          <Card.Img variant="top" src={adventureObj.imageUrl} alt={adventureObj.title} style={{ height: '200px' }} />
+          <button type="button" onClick={scrollUp}>Up</button>
+          <button type="button" onClick={scrollDown}>Down</button>
+          <div style={{ height: '200px', overflow: 'hidden' }}>
+            <ul ref={listRef}>
+              <li>
+                <Card.Img variant="top" src={adventureObj.imageUrl} alt={adventureObj.title} style={{ height: '200px' }} />
+              </li>
+              {adventureObj.extraPictures
+                ? adventureObj.extraPictures.map((image) => (
+                  <li>
+                    <Card.Img variant="top" src={image.imageUrl} alt={adventureObj.title} style={{ height: '200px' }} />
+                  </li>
+                ))
+                : ''}
+            </ul>
+          </div>
           <Card.Body>
             <Card.Title>{adventureObj.title}</Card.Title>
             <Card.Text>Intesity: {adventureObj.intensity}</Card.Text>
@@ -46,6 +111,7 @@ export default function BigAdventureCard({ adventureObj }) {
           </Card.Body>
         </Card>
       </BigAdventureCardContainer>
+      <PhotoUploadInput uploadBtn setFile={setFile} handleUpload={handleUpload} isUploaded={isUploaded} />
     </>
   );
 }
@@ -64,6 +130,12 @@ BigAdventureCard.propTypes = {
     title: PropTypes.string,
     uid: PropTypes.string,
     filePath: PropTypes.string,
+    extraPictures: PropTypes.shape([
+      {
+        imageUrl: PropTypes.string,
+        filePath: PropTypes.string,
+      },
+    ]),
   }),
 };
 
@@ -81,6 +153,12 @@ BigAdventureCard.defaultProps = {
     title: 'Adventure Title',
     uid: 'UID',
     filePath: '',
+    extraPictures: [
+      {
+        imageUrl: '',
+        filePath: '',
+      },
+    ],
   },
 };
 

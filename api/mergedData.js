@@ -26,7 +26,7 @@ const deleteDiscoveriesOfAdventure = (firebaseKey) => new Promise((resolve, reje
     Promise.all(deleteAdventurePromises).then(() => {
       deleteSingleAdventure(firebaseKey).then(resolve);
     });
-  }).catch((error) => reject(error));
+  }).catch(reject);
 });
 
 const getAllAdventuresAndDiscoveries = () => new Promise((resolve, reject) => {

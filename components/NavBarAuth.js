@@ -24,7 +24,7 @@ export default function NavBarAuth() {
       {isOpen ? (
         <>
           <LogoContainer>
-            <Image src="/backpack.png" width="20px" height="20px" />
+            <Image src="/map.png" width="20px" height="20px" />
             Little Adventures
             <button type="button" style={{ marginLeft: '20px' }} onClick={toggleNav}>Close</button>
           </LogoContainer>
@@ -62,7 +62,7 @@ export default function NavBarAuth() {
               <Link href="/adventures/public/publicAdventures" passHref>
                 <NavLink>All Adventures</NavLink>
               </Link>
-              <Link href="/discoveries/personal/myDiscoveries" passHref>
+              <Link href="/discoveries/public/publicDiscoveries" passHref>
                 <NavLink>All Discoveries</NavLink>
               </Link>
             </NewGroupContainer>

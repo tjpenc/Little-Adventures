@@ -52,7 +52,7 @@ const createAdventure = (payload) => new Promise((resolve, reject) => {
 const updateAdventure = (patchPayload) => new Promise((resolve, reject) => {
   axios.patch(`${dbUrl}/adventures/${patchPayload.firebaseKey}.json`, patchPayload)
     .then(resolve)
-    .then(reject);
+    .catch(reject);
 });
 
 const cloneAdventure = (payload, user) => new Promise((resolve, reject) => {
