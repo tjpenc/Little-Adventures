@@ -8,6 +8,8 @@ import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import CardImages from '../CardImages';
+// import Slider from '../Slider';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
@@ -19,10 +21,11 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
     <>
       <BigDiscoveryCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
+          {/* <Slider /> */}
           {discoveryObj.uid !== user.uid
             ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
             : ''}
-          <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
+          <CardImages obj={discoveryObj} />
           <Card.Body>
             <Card.Title>{discoveryObj.name}</Card.Title>
             <Card.Text>Type: {discoveryObj.type}</Card.Text>
@@ -36,9 +39,12 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
               </>
             ) : (
               <>
+                {discoveryObj.adventureId !== 'none'
+                && (
                 <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
                   <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
                 </Link>
+                )}
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
                   <Button variant="info">EDIT</Button>
                 </Link>

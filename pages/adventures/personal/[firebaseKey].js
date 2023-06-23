@@ -36,7 +36,7 @@ export default function ViewSingleAdventure() {
         )
         : (
           <Link href="/toExplore/adventures" passHref>
-            <Button variant="info">Discoveries to Find</Button>
+            <Button variant="info">Adventures To Explore</Button>
           </Link>
         )}
       <BigAdventureCard key={firebaseKey} adventureObj={adventure} />

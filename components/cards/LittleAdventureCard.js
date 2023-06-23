@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types';
-import { Card } from 'react-bootstrap';
+// import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { AddToExploreContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import CardImages from '../CardImages';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -25,7 +26,7 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
   return (
     <AdventureContainer>
       <ImageContainer>
-        <Card.Img variant="top" src={adventureObj.imageUrl} alt="image" style={{ height: '50px', width: '50px', borderRadius: '8px' }} />
+        <CardImages obj={adventureObj} />
       </ImageContainer>
       <AdventureInfo>
         <h4>

@@ -68,7 +68,7 @@ export default function AdventureForm({ adventureObj }) {
     } else if (adventureObj.firebaseKey) {
       updateThisAdventure();
     } else if (file) {
-      photoStorage.upload(file).then((imageObj) => {
+      photoStorage.upload(file, user.uid).then((imageObj) => {
         const payload = {
           ...formInput,
           uid: user.uid,

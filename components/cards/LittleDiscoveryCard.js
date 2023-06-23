@@ -10,14 +10,18 @@ import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import CardImages from '../CardImages';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
   const router = useRouter();
 
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
-    .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
-    .then(onUpdate);
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    deleteSingleDiscovery(discoveryObj.firebaseKey)
+      .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
+      .then(onUpdate);
+  };
 
   const viewCard = () => {
     if (discoveryObj.uid === user.uid) {
@@ -33,7 +37,8 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
         {discoveryObj.uid !== user.uid
           ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
           : '' }
-        <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
+        {/* <Card.Img variant="top" src="/compass.png" alt={discoveryObj.name} style={{ height: '200px' }} /> */}
+        <CardImages obj={discoveryObj} />
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
@@ -45,8 +50,8 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
                   <Image src="/edit.png" width="20px" height="20px" />
                 </BasicButton>
               </Link>
-              <BasicButton onClick={(e) => e.stopPropagation()}>
-                <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
+              <BasicButton onClick={handleDelete}>
+                <Image src="/delete.png" width="20px" height="20px" />
               </BasicButton>
             </>
           )}

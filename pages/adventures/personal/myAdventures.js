@@ -10,17 +10,18 @@ import { HeaderContainer, BasicButton } from '../../../styles/commonStyles';
 export default function ViewMyAdventures() {
   const [adventures, setAdventures] = useState([]);
   const [page, setPage] = useState(0);
-  const adventuresPerPage = 6;
+  const [toggleButtons, setToggleButtons] = useState('');
   const { user } = useAuth();
+  const adventuresPerPage = 6;
+  const endPage = Math.ceil(adventures.length / 6) - 1;
+  const startIndex = page * adventuresPerPage;
+  const endIndex = startIndex + adventuresPerPage;
+  const displayedAdventures = adventures.slice(startIndex, endIndex);
 
   const getAllUsersAdventures = () => getUserAdventures(user.uid).then((adventuresArray) => {
     const completedAdventures = adventuresArray.filter((adventure) => adventure.toBeExplored === false);
     setAdventures(completedAdventures);
   });
-
-  useEffect(() => {
-    getAllUsersAdventures();
-  }, []);
 
   const handleClickNext = () => {
     setPage((prevState) => prevState + 1);
@@ -30,10 +31,42 @@ export default function ViewMyAdventures() {
     setPage((prevState) => prevState - 1);
   };
 
-  const endPage = Math.ceil(adventures.length / 6) - 1;
-  const startIndex = page * adventuresPerPage;
-  const endIndex = startIndex + adventuresPerPage;
-  const displayedAdventures = adventures.slice(startIndex, endIndex);
+  const renderToggleButtons = () => {
+    let buttons = '';
+    if (adventures && page === 0) {
+      buttons = <button type="button" onClick={handleClickNext}>Next</button>;
+    } else if (page > 0 && page === endPage) {
+      buttons = (
+        <>
+          <button type="button" disabled onClick={() => {}}>Next</button>
+          <button type="button" onClick={handleClickPrev}>Prev</button>
+        </>
+      );
+    } else if (!adventures) {
+      buttons = (
+        <>
+          <button type="button" disabled onClick={handleClickNext}>Next</button>
+          <button type="button" disabled onClick={handleClickPrev}>Prev</button>
+        </>
+      );
+    } else {
+      buttons = (
+        <>
+          <button type="button" onClick={handleClickNext}>Next</button>
+          <button type="button" onClick={handleClickPrev}>Prev</button>
+        </>
+      );
+    }
+    setToggleButtons(buttons);
+  };
+
+  useEffect(() => {
+    getAllUsersAdventures();
+  }, []);
+
+  useEffect(() => {
+    renderToggleButtons();
+  }, [page]);
 
   return (
     <>
@@ -50,12 +83,7 @@ export default function ViewMyAdventures() {
           ))}
         </AdventuresContainer>
       </AdventureJournalContainer>
-      {page === 0
-        ? <button type="button" disabled onClick={handleClickPrev}>Prev</button>
-        : <button type="button" onClick={handleClickPrev}>Prev</button>}
-      {page === endPage
-        ? <button type="button" disabled onClick={handleClickNext}>Next</button>
-        : <button type="button" onClick={handleClickNext}>Next</button>}
+      {toggleButtons}
     </>
   );
 }

@@ -10,7 +10,6 @@ export default function ViewAdvneturesToExplore() {
   const getToBeExploredAdventures = () => getUserAdventures(user.uid).then((adventuresArray) => {
     const toBeExploredAdventures = adventuresArray.filter((adventure) => adventure.toBeExplored === true);
     setAdventures(toBeExploredAdventures);
-    console.warn(toBeExploredAdventures);
   });
 
   useEffect(() => {

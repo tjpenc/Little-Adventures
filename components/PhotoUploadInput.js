@@ -7,7 +7,6 @@ export default function PhotoUploadInput({
 }) {
   // Handles selecting an image
   const handleChange = (e) => {
-    console.warn(e.target.files[0]);
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     }

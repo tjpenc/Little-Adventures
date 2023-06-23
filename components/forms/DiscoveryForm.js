@@ -131,7 +131,6 @@ export default function DiscoveryForm({ discoveryObj }) {
     delete newInput.filePath;
     newInput.imageUrl = newSource.imageUrl;
     newInput.filePath = newSource.filePath;
-    console.warn(newInput);
     return newInput;
   };
 
@@ -147,7 +146,7 @@ export default function DiscoveryForm({ discoveryObj }) {
     } else if (discoveryObj.firebaseKey) {
       updateThisDiscovery();
     } else if (file) {
-      photoStorage.upload(file).then((imageObj) => {
+      photoStorage.upload(file, user.uid).then((imageObj) => {
         const payload = {
           ...formInput,
           uid: user.uid,
