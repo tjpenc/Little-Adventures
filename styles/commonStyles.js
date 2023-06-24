@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-const AddToExploreContainer = styled.div`
-  display: transparent;
-`;
-
 const HeaderContainer = styled.div`
   padding: 20px;
   display: flex;
@@ -43,10 +39,13 @@ const BasicButton = styled.button`
     width: 20%;
     margin-bottom: 5%;
   }
+
+  &.thicker {
+    height: 20%
+  }
 `;
 
 export {
-  AddToExploreContainer,
   HeaderContainer,
   TitleContainer,
   TitleButtonsContainer,

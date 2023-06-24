@@ -24,9 +24,12 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
     setIsHovered(false);
   };
 
-  const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
-    .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
-    .then(onUpdate);
+  const deleteThisAdventure = (e) => {
+    e.stopPropagation();
+    deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
+      .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
+      .then(onUpdate);
+  };
 
   const viewCard = () => {
     if (adventureObj.uid === user.uid) {
@@ -55,20 +58,20 @@ export default function LittleAdventureCard({ adventureObj, onUpdate }) {
         <Container>
           <Title>
             <h4>{adventureObj.title}</h4>
-            {user.uid !== adventureObj.uid && <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} />}
           </Title>
           <InfoContainer className="details">{adventureObj.details}</InfoContainer>
           <InfoContainer>{adventureObj.intensity}</InfoContainer>
           <InfoContainer><Ratings obj={adventureObj} /></InfoContainer>
           {user.uid === adventureObj.uid
-          && (
-            <TitleButtonsContainer>
-              <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>
-                <BasicButton>Edit</BasicButton>
-              </Link>
-              <BasicButton onClick={deleteThisAdventure}>Delete</BasicButton>
-            </TitleButtonsContainer>
-          )}
+            ? (
+              <TitleButtonsContainer>
+                <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>
+                  <BasicButton onClick={(e) => { e.stopPropagation(); }}>Edit</BasicButton>
+                </Link>
+                <BasicButton onClick={deleteThisAdventure}>Delete</BasicButton>
+              </TitleButtonsContainer>
+            )
+            : <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} />}
         </Container>
       </AdventureContainer>
     </>
@@ -113,7 +116,7 @@ LittleAdventureCard.defaultProps = {
 const AdventureContainer = styled.div`
  display: flex;
  align-items: center;
- width: 100%;
+ width: 700px;
  height: 100%;
  cursor: pointer;
  border: solid black 3px;

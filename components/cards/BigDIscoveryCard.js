@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types';
 import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
+import { BasicButton } from '../../styles/commonStyles';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
@@ -22,9 +22,6 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
       <BigDiscoveryCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
           {/* <Slider /> */}
-          {discoveryObj.uid !== user.uid
-            ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
-            : ''}
           <CardImages obj={discoveryObj} />
           <Card.Body>
             <Card.Title>{discoveryObj.name}</Card.Title>
@@ -34,16 +31,19 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
             {discoveryObj.uid !== user.uid ? (
               <>
                 <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>
-                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
+                  <BasicButton variant="primary" className="m-2">View Adventure</BasicButton>
                 </Link>
+                <AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery />
               </>
             ) : (
               <>
                 {discoveryObj.adventureId !== 'none'
                 && (
-                <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
-                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
-                </Link>
+                <>
+                  <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
+                    <BasicButton variant="primary" className="m-2">View Adventure</BasicButton>
+                  </Link>
+                </>
                 )}
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
                   <BasicButton variant="info">EDIT</BasicButton>

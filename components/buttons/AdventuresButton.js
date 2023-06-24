@@ -8,11 +8,11 @@ export default function AdventuresButton({ toExplore }) {
       {toExplore
         ? (
           <Link href="/toExplore/adventures" passHref>
-            <BasicButton className="big_round_button">Adventures To Explore</BasicButton>
+            <BasicButton className="thicker">Adventures Explore Page</BasicButton>
           </Link>
         ) : (
           <Link href="/adventures/personal/myAdventures" passHref>
-            <BasicButton className="big_round_button">My Adventures</BasicButton>
+            <BasicButton className="thicker">My Adventures</BasicButton>
           </Link>
         )}
     </>

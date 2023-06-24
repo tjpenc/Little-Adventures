@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { useAuth } from '../../utils/context/authContext';
 import { cloneDiscovery, getSingleDiscovery } from '../../api/discoveriesData';
 import { cloneAdventure, getSingleAdventure } from '../../api/adventuresData';
@@ -39,9 +40,9 @@ export default function AddToExploreButton({ firebaseKey, isDiscovery }) {
   };
 
   return (
-    <>
-      <BasicButton type="button" onClick={(e) => { addToExplorePage(e); }}>+</BasicButton>
-    </>
+    <AddToExploreContainer>
+      <BasicButton type="button" onClick={(e) => { addToExplorePage(e); }}>Add To Explore Page</BasicButton>
+    </AddToExploreContainer>
   );
 }
 
@@ -53,7 +54,6 @@ AddToExploreButton.propTypes = {
 AddToExploreButton.defaultProps = {
   firebaseKey: '',
 };
-// get object from outside the function
-// create clone of the object
-// update the object with new users uid and firebaseKey
-// need to make discoveries independent first
+
+const AddToExploreContainer = styled.div`
+`;

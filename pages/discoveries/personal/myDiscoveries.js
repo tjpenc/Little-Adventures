@@ -4,7 +4,9 @@ import Link from 'next/link';
 import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
 import { getUserDiscoveries } from '../../../api/discoveriesData';
 import { useAuth } from '../../../utils/context/authContext';
-import { BasicButton } from '../../../styles/commonStyles';
+import {
+  BasicButton, TitleButtonsContainer, TitleContainer, HeaderContainer,
+} from '../../../styles/commonStyles';
 
 // view my discoveries
 export default function ViewDiscoveries() {
@@ -23,13 +25,17 @@ export default function ViewDiscoveries() {
   return (
     <>
       <HeaderContainer>
-        <h1>My Discoveries</h1>
-        <Link href="/discoveries/personal/createDiscovery" passHref>
-          <BasicButton variant="primary" className="m-2">Add A Discovery!</BasicButton>
-        </Link>
-        <Link href="/discoveries/personal/myGoogleMap" passHref>
-          <BasicButton variant="primary" className="m-2">To Maps</BasicButton>
-        </Link>
+        <TitleContainer>
+          <h1>My Discoveries</h1>
+        </TitleContainer>
+        <TitleButtonsContainer>
+          <Link href="/discoveries/personal/createDiscovery" passHref>
+            <BasicButton>Add A Discovery!</BasicButton>
+          </Link>
+          <Link href="/discoveries/personal/myGoogleMap" passHref>
+            <BasicButton>To Maps</BasicButton>
+          </Link>
+        </TitleButtonsContainer>
       </HeaderContainer>
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (
@@ -39,11 +45,6 @@ export default function ViewDiscoveries() {
     </>
   );
 }
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
 
 const DiscoveriesContainer = styled.div`
   display: flex;
