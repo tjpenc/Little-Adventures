@@ -1,13 +1,15 @@
 import { PropTypes } from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import CardImages from '../CardImages';
+// import Slider from '../Slider';
 
 export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
   const { user } = useAuth();
@@ -19,10 +21,11 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
     <>
       <BigDiscoveryCardContainer>
         <Card style={{ width: '18rem', margin: '10px' }}>
+          {/* <Slider /> */}
           {discoveryObj.uid !== user.uid
             ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
             : ''}
-          <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
+          <CardImages obj={discoveryObj} />
           <Card.Body>
             <Card.Title>{discoveryObj.name}</Card.Title>
             <Card.Text>Type: {discoveryObj.type}</Card.Text>
@@ -31,20 +34,23 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
             {discoveryObj.uid !== user.uid ? (
               <>
                 <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>
-                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
                 </Link>
               </>
             ) : (
               <>
+                {discoveryObj.adventureId !== 'none'
+                && (
                 <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
-                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
                 </Link>
+                )}
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-                  <Button variant="info">EDIT</Button>
+                  <BasicButton variant="info">EDIT</BasicButton>
                 </Link>
-                <Button variant="danger" onClick={deleteThisDiscovery} className="m-2">
+                <BasicButton variant="danger" onClick={deleteThisDiscovery} className="m-2">
                   DELETE
-                </Button>
+                </BasicButton>
               </>
             )}
           </Card.Body>
@@ -94,9 +100,8 @@ BigDiscoveryCard.defaultProps = {
 };
 
 const BigDiscoveryCardContainer = styled.div`
-  width: 500px;
-  height: 1000px;
+  width: 30%;
+  height: 250%;
   display: flex;
-  border: solid black 2px;
   align-items: center;
 `;

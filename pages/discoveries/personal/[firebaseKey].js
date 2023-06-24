@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { getSingleDiscovery } from '../../../api/discoveriesData';
 import BigDiscoveryCard from '../../../components/cards/BigDIscoveryCard';
 import { getAdventureFromDiscovery } from '../../../api/mergedData';
+import { BasicButton } from '../../../styles/commonStyles';
 
 // view single discovery form
 export default function ViewSingleDiscovery() {
@@ -35,15 +36,24 @@ export default function ViewSingleDiscovery() {
       {discovery.toBeDiscovered !== true
         ? (
           <Link href="/discoveries/personal/myDiscoveries" passHref>
-            <Button variant="info">My Discoveries</Button>
+            <BasicButton variant="info">My Discoveries</BasicButton>
           </Link>
         )
         : (
           <Link href="/toExplore/discoveries" passHref>
-            <Button variant="info">Discoveries to Find</Button>
+            <BasicButton variant="info">Discoveries to Find</BasicButton>
           </Link>
         )}
-      <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />;
+      <BigAdventureContainer>
+        <BigDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={routeToMyDiscoveries} />
+      </BigAdventureContainer>
     </>
   );
 }
+
+const BigAdventureContainer = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+`;

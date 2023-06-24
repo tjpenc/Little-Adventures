@@ -14,14 +14,13 @@ import { storage } from './client';
 // Deletes the file BUT don't forget to also delete the reference in your database
 // `${bucket}/${file.name}`
 const photoStorage = {
-  upload(file) {
+  upload(file, uid) {
     return new Promise((resolve, reject) => {
       const storageRef = storage.ref();
-      const fileRef = storageRef.child(`images/${file.name}`);
+      const fileRef = storageRef.child(`${uid}/${file.name}`);
       fileRef.put(file).then(() => {
-        storage.ref('images').child(file.name).getDownloadURL().then((url) => {
-          console.warn(url);
-          const imageObj = { imageUrl: url, filePath: `images/${file.name}` };
+        storage.ref(`${uid}`).child(file.name).getDownloadURL().then((url) => {
+          const imageObj = { imageUrl: url, filePath: `${uid}/${file.name}` };
           resolve(imageObj);
           // setImg(url);
           // setPath(`images/${file.name}`);
@@ -34,7 +33,7 @@ const photoStorage = {
   delete(filepath) {
     const storageRef = storage.ref();
     const fileRef = storageRef.child(filepath);
-    fileRef.delete().then(console.warn('deleted file'))
+    fileRef.delete().then(() => {})
       .catch((error) => console.warn(error));
   },
 };

@@ -7,7 +7,6 @@ export default function PhotoUploadInput({
 }) {
   // Handles selecting an image
   const handleChange = (e) => {
-    console.warn(e.target.files[0]);
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     }
@@ -15,7 +14,7 @@ export default function PhotoUploadInput({
 
   return (
     <>
-      <div>
+      <div style={{ marginBottom: '15px' }}>
         <input type="file" onChange={handleChange} />
         {uploadBtn
         && <button type="button" color="green" onClick={handleUpload}>Upload Photo</button>}

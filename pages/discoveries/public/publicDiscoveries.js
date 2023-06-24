@@ -21,7 +21,9 @@ export default function ViewPublicDiscoveries() {
 
   return (
     <>
-      <h1>Public Discoveries</h1>
+      <HeaderContainer>
+        <h1>Public Discoveries</h1>
+      </HeaderContainer>
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (
           discovery.uid !== user.uid
@@ -32,6 +34,11 @@ export default function ViewPublicDiscoveries() {
     </>
   );
 }
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
 
 const DiscoveriesContainer = styled.div`
   display: flex;

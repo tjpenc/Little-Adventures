@@ -131,7 +131,6 @@ export default function DiscoveryForm({ discoveryObj }) {
     delete newInput.filePath;
     newInput.imageUrl = newSource.imageUrl;
     newInput.filePath = newSource.filePath;
-    console.warn(newInput);
     return newInput;
   };
 
@@ -147,7 +146,7 @@ export default function DiscoveryForm({ discoveryObj }) {
     } else if (discoveryObj.firebaseKey) {
       updateThisDiscovery();
     } else if (file) {
-      photoStorage.upload(file).then((imageObj) => {
+      photoStorage.upload(file, user.uid).then((imageObj) => {
         const payload = {
           ...formInput,
           uid: user.uid,
@@ -285,9 +284,6 @@ export default function DiscoveryForm({ discoveryObj }) {
               required
             />
           </FloatingLabel>
-          {isMapShowing
-            ? <><BasicButton onClick={toggleMap}>Close map</BasicButton> <Map mapOnForm onClick={handleMapClick} style={{}} /></>
-            : <BasicButton onClick={toggleMap}>See map</BasicButton>}
         </CheckBoxesContainer>
 
         <CheckBoxesContainer>
@@ -329,6 +325,9 @@ export default function DiscoveryForm({ discoveryObj }) {
           </Link>
         </SubmitButtonContainer>
       </Form>
+      {isMapShowing
+        ? <><BasicButton onClick={toggleMap}>Close map</BasicButton> <Map mapOnForm onClick={handleMapClick} style={{}} /></>
+        : <BasicButton onClick={toggleMap}>See map</BasicButton>}
     </FormInputContainer>
   );
 }

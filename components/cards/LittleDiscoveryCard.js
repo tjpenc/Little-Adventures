@@ -4,20 +4,26 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { useState } from 'react';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
+import CardImages from '../CardImages';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
+  const [isHovered, setIsHovered] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
-  const deleteThisDiscovery = () => deleteSingleDiscovery(discoveryObj.firebaseKey)
-    .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
-    .then(onUpdate);
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    deleteSingleDiscovery(discoveryObj.firebaseKey)
+      .then(discoveryObj.filePath && photoStorage.delete(discoveryObj.filePath))
+      .then(onUpdate);
+  };
 
   const viewCard = () => {
     if (discoveryObj.uid === user.uid) {
@@ -27,13 +33,32 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <LittleDiscoveryCardContainer>
-      <Card style={{ width: '18rem', margin: '10px' }} onClick={viewCard}>
+      <Card
+        style={{
+          width: '18rem',
+          margin: '10px',
+          transform: isHovered ? 'scale(1.01)' : '',
+          boxShadow: isHovered ? '0 0 10px rgba(0, 0, 0, 0.3)' : '',
+        }}
+        onClick={viewCard}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {discoveryObj.uid !== user.uid
           ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
           : '' }
-        <Card.Img variant="top" src={discoveryObj.imageUrl} alt={discoveryObj.name} style={{ height: '200px' }} />
+        {/* <Card.Img variant="top" src="/compass.png" alt={discoveryObj.name} style={{ height: '200px' }} /> */}
+        <CardImages obj={discoveryObj} />
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
@@ -45,8 +70,8 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
                   <Image src="/edit.png" width="20px" height="20px" />
                 </BasicButton>
               </Link>
-              <BasicButton onClick={(e) => e.stopPropagation()}>
-                <Image src="/delete.png" width="20px" height="20px" onClick={deleteThisDiscovery} />
+              <BasicButton onClick={handleDelete}>
+                <Image src="/delete.png" width="20px" height="20px" />
               </BasicButton>
             </>
           )}
@@ -98,4 +123,10 @@ const LittleDiscoveryCardContainer = styled.div`
   height: 500px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  /* &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  } */
 `;

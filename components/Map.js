@@ -26,10 +26,10 @@ export default function Map({ mapOnForm, onClick, usersMap }) {
 
   const defaultProps = {
     center: {
-      lat: 45,
-      lng: -100,
+      lat: 36.5,
+      lng: -82.5,
     },
-    zoom: 7,
+    zoom: 11,
   };
 
   return (
