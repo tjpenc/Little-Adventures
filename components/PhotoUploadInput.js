@@ -14,7 +14,7 @@ export default function PhotoUploadInput({
 
   return (
     <>
-      <div>
+      <div style={{ marginBottom: '15px' }}>
         <input type="file" onChange={handleChange} />
         {uploadBtn
         && <button type="button" color="green" onClick={handleUpload}>Upload Photo</button>}

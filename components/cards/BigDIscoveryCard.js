@@ -1,8 +1,8 @@
 import { PropTypes } from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import AddToExploreButton from '../buttons/AddToExploreButton';
@@ -34,7 +34,7 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
             {discoveryObj.uid !== user.uid ? (
               <>
                 <Link href={`/adventures/public/${discoveryObj.adventureId}`} passHref>
-                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
                 </Link>
               </>
             ) : (
@@ -42,15 +42,15 @@ export default function BigDiscoveryCard({ discoveryObj, onUpdate }) {
                 {discoveryObj.adventureId !== 'none'
                 && (
                 <Link href={`/adventures/personal/${discoveryObj.adventureId}`} passHref>
-                  <Button variant="primary" className="m-2">VIEW ADVENTURE</Button>
+                  <BasicButton variant="primary" className="m-2">VIEW ADVENTURE</BasicButton>
                 </Link>
                 )}
                 <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
-                  <Button variant="info">EDIT</Button>
+                  <BasicButton variant="info">EDIT</BasicButton>
                 </Link>
-                <Button variant="danger" onClick={deleteThisDiscovery} className="m-2">
+                <BasicButton variant="danger" onClick={deleteThisDiscovery} className="m-2">
                   DELETE
-                </Button>
+                </BasicButton>
               </>
             )}
           </Card.Body>
@@ -100,9 +100,8 @@ BigDiscoveryCard.defaultProps = {
 };
 
 const BigDiscoveryCardContainer = styled.div`
-  width: 500px;
-  height: 1000px;
+  width: 30%;
+  height: 250%;
   display: flex;
-  border: solid black 2px;
   align-items: center;
 `;

@@ -284,9 +284,6 @@ export default function DiscoveryForm({ discoveryObj }) {
               required
             />
           </FloatingLabel>
-          {isMapShowing
-            ? <><BasicButton onClick={toggleMap}>Close map</BasicButton> <Map mapOnForm onClick={handleMapClick} style={{}} /></>
-            : <BasicButton onClick={toggleMap}>See map</BasicButton>}
         </CheckBoxesContainer>
 
         <CheckBoxesContainer>
@@ -328,6 +325,9 @@ export default function DiscoveryForm({ discoveryObj }) {
           </Link>
         </SubmitButtonContainer>
       </Form>
+      {isMapShowing
+        ? <><BasicButton onClick={toggleMap}>Close map</BasicButton> <Map mapOnForm onClick={handleMapClick} style={{}} /></>
+        : <BasicButton onClick={toggleMap}>See map</BasicButton>}
     </FormInputContainer>
   );
 }

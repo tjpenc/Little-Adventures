@@ -1,63 +1,77 @@
 import { PropTypes } from 'prop-types';
-// import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { BasicButton, TitleButtonsContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
 import CardImages from '../CardImages';
 
 export default function LittleAdventureCard({ adventureObj, onUpdate }) {
-  const [showMenu, setShowMenu] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
   const { user } = useAuth();
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   const deleteThisAdventure = () => deleteDiscoveriesOfAdventure(adventureObj.firebaseKey)
     .then(adventureObj.filePath && photoStorage.delete(adventureObj.filePath))
     .then(onUpdate);
 
+  const viewCard = () => {
+    if (adventureObj.uid === user.uid) {
+      router.push(`/adventures/personal/${adventureObj.firebaseKey}`);
+    } else {
+      router.push(`/adventures/public/${adventureObj.firebaseKey}`);
+    }
+  };
+
   return (
-    <AdventureContainer>
-      <ImageContainer>
-        <CardImages obj={adventureObj} />
-      </ImageContainer>
-      <AdventureInfo>
-        <h4>
-          {adventureObj.title}<span> {adventureObj.timeSubmitted}</span>
-        </h4>
-        <p className="details">{adventureObj.details}</p>
-        <p>{adventureObj.intensity}</p>
-        <Ratings obj={adventureObj} />
-      </AdventureInfo>
-      <MenuContainer>
-        <MenuButton onClick={toggleMenu}>⋮</MenuButton>
-        {showMenu ? (
-          <OptionsMenu onMouseLeave={toggleMenu}>
-            <ul>
-              {adventureObj.uid !== user.uid ? (
-                <>
-                  <OptionItem><Link href={`/adventures/public/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
-                  <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
-                </>
-              ) : (
-                <>
-                  <OptionItem><Link href={`/adventures/personal/${adventureObj.firebaseKey}`} passHref>View</Link></OptionItem>
-                  <OptionItem><Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>Edit</Link></OptionItem>
-                  <OptionItem onClick={deleteThisAdventure}>Delete</OptionItem>
-                </>
-              )}
-            </ul>
-          </OptionsMenu>
-        ) : ''}
-      </MenuContainer>
-    </AdventureContainer>
+    <>
+      <AdventureContainer
+        style={{
+          transform: isHovered ? 'scale(1.01)' : '',
+          boxShadow: isHovered ? '0 0 10px rgba(0, 0, 0, 0.3)' : '',
+        }}
+        onClick={viewCard}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Header>
+          <ImageContainer>
+            <CardImages obj={adventureObj} />
+          </ImageContainer>
+        </Header>
+        <Container>
+          <Title>
+            <h4>{adventureObj.title}</h4>
+            {user.uid !== adventureObj.uid && <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} />}
+          </Title>
+          <InfoContainer className="details">{adventureObj.details}</InfoContainer>
+          <InfoContainer>{adventureObj.intensity}</InfoContainer>
+          <InfoContainer><Ratings obj={adventureObj} /></InfoContainer>
+          {user.uid === adventureObj.uid
+          && (
+            <TitleButtonsContainer>
+              <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>
+                <BasicButton>Edit</BasicButton>
+              </Link>
+              <BasicButton onClick={deleteThisAdventure}>Delete</BasicButton>
+            </TitleButtonsContainer>
+          )}
+        </Container>
+      </AdventureContainer>
+    </>
   );
 }
 
@@ -97,70 +111,45 @@ LittleAdventureCard.defaultProps = {
 };
 
 const AdventureContainer = styled.div`
+ display: flex;
+ align-items: center;
+ width: 100%;
+ height: 100%;
+ cursor: pointer;
+ border: solid black 3px;
+`;
+
+const Header = styled.div`
   display: flex;
+  width: 60%;
   align-items: center;
-  padding: 4%;
-  border: solid black 3px;
-  width: 70%;
-  margin: 0 60px;
+  justify-content: center;
+  height: 200px;
+  margin: 2%;
+`;
+
+const Title = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ImageContainer = styled.div`
-  flex-basis: 15%;
-  height: 50%;
-  width: 15%;
+ width: 100%;
+ object-fit: cover;
 `;
 
-const AdventureInfo = styled.div`
-  width: 70%;
-  flex-basis: 80%;
-  padding-left: 2%;
-  font-size: 15px;
+const Container = styled.div`
+  width: 100%;
+  margin-left: 10px;
+`;
 
-  > h4 {
-    font-size: 20px;
-  }
-
-  > h4 > span {
-    color: gray;
-    font-weight: 300;
-    margin-left: 4px;
-    font-size: 10px;
-  }
+const InfoContainer = styled.div`
   > .details {
     width: 70%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-  }
-`;
-
-const MenuContainer = styled.div`
- flex-basis: 2%;
-`;
-
-const MenuButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: #666;
-  font-size: 24px;
-  cursor: pointer;
-`;
-
-const OptionsMenu = styled.div`
-  position: relative;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 3px;
-`;
-
-const OptionItem = styled.h6`
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
-  padding-right: 10px;
-  padding-bottom: 3px;
-
-  &:last-child {
-    border-bottom: none;
   }
 `;

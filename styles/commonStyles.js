@@ -5,15 +5,31 @@ const AddToExploreContainer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
+  padding: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TitleButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 const BasicButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 10px;
   background-color: transparent;
   padding: 10px 20px;
-  height: 60px;
+  height: 4%;
   width: fit-content;
 
   &:hover {
@@ -32,5 +48,7 @@ const BasicButton = styled.button`
 export {
   AddToExploreContainer,
   HeaderContainer,
+  TitleContainer,
+  TitleButtonsContainer,
   BasicButton,
 };

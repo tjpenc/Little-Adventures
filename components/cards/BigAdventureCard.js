@@ -1,12 +1,12 @@
 import { PropTypes } from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 // import { useEffect, useState } from 'react';
 import { deleteDiscoveriesOfAdventure } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
-import { AddToExploreContainer } from '../../styles/commonStyles';
+import { BasicButton, TitleContainer } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
@@ -48,29 +48,31 @@ export default function BigAdventureCard({ adventureObj }) {
   return (
     <>
       <BigAdventureCardContainer>
-        <Card style={{ width: '18rem', margin: '10px' }}>
-          {adventureObj.uid !== user.uid
-            ? <AddToExploreContainer><AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /></AddToExploreContainer>
-            : ''}
-          <CardImages obj={adventureObj} />
+        <AdventureContainer>
+          <ImageContainer>
+            <CardImages obj={adventureObj} />
+          </ImageContainer>
           {/* <Slider obj={adventureObj} /> */}
-          <Card.Body>
-            <Card.Title>{adventureObj.title}</Card.Title>
-            <Card.Text>Intesity: {adventureObj.intensity}</Card.Text>
-            <Card.Text>Details: {adventureObj.details}</Card.Text>
-            <Card.Text><Ratings obj={adventureObj} /></Card.Text>
+          <Container>
+            <TitleContainer>
+              <Card.Title>{adventureObj.title}</Card.Title>
+              {adventureObj.uid !== user.uid && <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} />}
+            </TitleContainer>
+            <InfoContainer>Intesity: {adventureObj.intensity}</InfoContainer>
+            <InfoContainer>Details: {adventureObj.details}</InfoContainer>
+            <InfoContainer><Ratings obj={adventureObj} /></InfoContainer>
             {adventureObj.uid !== user.uid ? '' : (
               <>
                 <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>
-                  <Button variant="info">EDIT</Button>
+                  <BasicButton variant="info">EDIT</BasicButton>
                 </Link>
-                <Button variant="danger" onClick={deleteThisAdventure} className="m-2">
+                <BasicButton variant="danger" onClick={deleteThisAdventure} className="m-2">
                   DELETE
-                </Button>
+                </BasicButton>
               </>
             )}
-          </Card.Body>
-        </Card>
+          </Container>
+        </AdventureContainer>
       </BigAdventureCardContainer>
       {/* <PhotoUploadInput uploadBtn setFile={setFile} handleUpload={handleUpload} isUploaded={isUploaded} /> */}
     </>
@@ -124,9 +126,34 @@ BigAdventureCard.defaultProps = {
 };
 
 const BigAdventureCardContainer = styled.div`
-  width: 500px;
-  height: 1000px;
+  width: 80%;
+  height: 100%;
+`;
+
+const AdventureContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
-  border: solid black 2px;
+  justify-content: space-around;
   align-items: center;
+`;
+
+const ImageContainer = styled.div`
+ width: 20%;
+ object-fit: cover;
+`;
+
+const Container = styled.div`
+  width: 50%;
+  margin-left: 10px;
+`;
+
+const InfoContainer = styled.div`
+  margin: 7px;
+  > .details {
+    width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;

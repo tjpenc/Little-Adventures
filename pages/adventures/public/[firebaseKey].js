@@ -1,5 +1,6 @@
 // view single public adventure
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
@@ -26,10 +27,27 @@ export default function ViewSinglePublicAdventure() {
       <Link href="/adventures/public/publicAdventures" passHref>
         <Button variant="info">Public Adventures</Button>
       </Link>
-      <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
-      {discoveries?.map((discovery) => (
-        <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={() => {}} />
-      ))}
+      <BigAdventureContainer>
+        <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
+      </BigAdventureContainer>
+      <DiscoveriesContainer>
+        {discoveries?.map((discovery) => (
+          <LittleDiscoveryCard key={discovery.firebaseKey} discoveryObj={discovery} onUpdate={() => {}} />
+        ))}
+      </DiscoveriesContainer>
     </>
   );
 }
+
+const BigAdventureContainer = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+`;
+
+const DiscoveriesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`;

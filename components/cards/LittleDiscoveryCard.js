@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { useState } from 'react';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
 import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
@@ -13,6 +14,7 @@ import Ratings from '../Ratings';
 import CardImages from '../CardImages';
 
 export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
+  const [isHovered, setIsHovered] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -31,9 +33,27 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <LittleDiscoveryCardContainer>
-      <Card style={{ width: '18rem', margin: '10px' }} onClick={viewCard}>
+      <Card
+        style={{
+          width: '18rem',
+          margin: '10px',
+          transform: isHovered ? 'scale(1.01)' : '',
+          boxShadow: isHovered ? '0 0 10px rgba(0, 0, 0, 0.3)' : '',
+        }}
+        onClick={viewCard}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {discoveryObj.uid !== user.uid
           ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
           : '' }
@@ -103,4 +123,10 @@ const LittleDiscoveryCardContainer = styled.div`
   height: 500px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  /* &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  } */
 `;
