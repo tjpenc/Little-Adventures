@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { deleteSingleDiscovery } from '../../api/discoveriesData';
 import { useAuth } from '../../utils/context/authContext';
-import { AddToExploreContainer, BasicButton } from '../../styles/commonStyles';
+import { BasicButton } from '../../styles/commonStyles';
 import AddToExploreButton from '../buttons/AddToExploreButton';
 import photoStorage from '../../utils/photoStorage';
 import Ratings from '../Ratings';
@@ -54,16 +54,13 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {discoveryObj.uid !== user.uid
-          ? <AddToExploreContainer><AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery /></AddToExploreContainer>
-          : '' }
         {/* <Card.Img variant="top" src="/compass.png" alt={discoveryObj.name} style={{ height: '200px' }} /> */}
         <CardImages obj={discoveryObj} />
         <Card.Body>
           <Card.Title>{discoveryObj.name}</Card.Title>
           <Card.Text>Type: {discoveryObj.type}</Card.Text>
           <Card.Text><Ratings obj={discoveryObj} /></Card.Text>
-          {discoveryObj.uid === user.uid && (
+          {discoveryObj.uid === user.uid ? (
             <>
               <Link href={`/discoveries/personal/edit/${discoveryObj.firebaseKey}`} passHref>
                 <BasicButton onClick={(e) => e.stopPropagation()}>
@@ -74,7 +71,7 @@ export default function LittleDiscoveryCard({ discoveryObj, onUpdate }) {
                 <Image src="/delete.png" width="20px" height="20px" />
               </BasicButton>
             </>
-          )}
+          ) : <AddToExploreButton firebaseKey={discoveryObj.firebaseKey} isDiscovery />}
         </Card.Body>
       </Card>
     </LittleDiscoveryCardContainer>

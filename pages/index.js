@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useAuth } from '../utils/context/authContext';
 import DiscoveriesButton from '../components/buttons/DiscoveriesButton';
 import AdventuresButton from '../components/buttons/AdventuresButton';
-import { BasicButton } from '../styles/commonStyles';
+import { BasicButton, TitleButtonsContainer } from '../styles/commonStyles';
 
 function Home() {
   const { user } = useAuth();
@@ -23,29 +23,30 @@ function Home() {
         <h1>Hello {user.displayName}! </h1>
       </UserInfoContainer>
       <NavigationButtonContainers>
-        <Link href="/testPage" passHref>
-          <BasicButton className="flex-basis2">TestPage</BasicButton>
-        </Link>
-        <Link href="/adventures/public/publicAdventures" passHref>
-          <BasicButton className="flex-basis2">Explore Adventures</BasicButton>
-        </Link>
-        <Link href="/discoveries/public/publicDiscoveries" passHref>
-          <BasicButton className="flex-basis2">Explore Discoveries</BasicButton>
-        </Link>
-        <Link href="/randomAdventure" passHref>
-          <BasicButton>Find an Adventure</BasicButton>
-        </Link>
-        <Link href="/toExplore/toBeExplored" passHref>
-          <BasicButton>My Explore Page</BasicButton>
-        </Link>
-        <Link href="/googleMap" passHref>
-          <BasicButton>Discovery Map</BasicButton>
-        </Link>
+        <TitleButtonsContainer>
+          <AdventuresButton toExplore={false} />
+          <DiscoveriesButton toExplore={false} />
+          <Link href="/adventures/public/publicAdventures" passHref>
+            <BasicButton className="thicker">Explore Adventures</BasicButton>
+          </Link>
+          <Link href="/discoveries/public/publicDiscoveries" passHref>
+            <BasicButton className="thicker">Explore Discoveries</BasicButton>
+          </Link>
+          {/* <Link href="/randomAdventure" passHref>
+            <BasicButton className="thicker">Find an Adventure</BasicButton>
+          </Link> */}
+          <Link href="/toExplore/toBeExplored" passHref>
+            <BasicButton className="thicker">My Explore Page</BasicButton>
+          </Link>
+          <Link href="/googleMap" passHref>
+            <BasicButton className="thicker">Discovery Map</BasicButton>
+          </Link>
+        </TitleButtonsContainer>
       </NavigationButtonContainers>
-      <FilterButtonContainer>
+      {/* <FilterButtonContainer>
         <AdventuresButton toExplore={false} />
         <DiscoveriesButton toExplore={false} />
-      </FilterButtonContainer>
+      </FilterButtonContainer> */}
     </HomePageContainer>
   );
 }
@@ -78,12 +79,16 @@ const NavigationButtonContainers = styled.div`
     flex-basis: 100%;
     display: flex;
     justify-content: space-evenly;
+    height: 30%;
 `;
 
-const FilterButtonContainer = styled.div`
-  flex-basis: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-`;
+// const FilterButtonContainer = styled.div`
+//   flex-basis: 100%;
+//   width: 90%;
+//   display: flex;
+//   justify-content: space-evenly;
+//   align-items: center;
+//   position: absolute;
+//   bottom: 50px;
+//   height: 30%;
+// `;

@@ -38,8 +38,11 @@ export default function MapMarker({ discoveryObj }) {
       onMouseLeave={handleMouseLeave}
     >
       {/* <Card style={{ width: '50px' }} onClick={viewDiscovery}> */}
-      <Card.Img variant="top" src={discoveryObj.imageUrl} alt="thing" style={{ height: '50px' }} />
+      {discoveryObj.imageUrl
+        ? <Card.Img variant="top" src={discoveryObj.imageUrl} alt="thing" style={{ height: '50px' }} />
+        : <Card.Img variant="top" src="/backpack.png" alt="thing" style={{ height: '50px' }} />}
     </Card>
+
   );
 }
 
@@ -53,7 +56,7 @@ MapMarker.propTypes = {
 
 MapMarker.defaultProps = {
   discoveryObj: {
-    imageUrl: '',
+    imageUrl: '/backpack.png',
     firebaseKey: '',
     uid: '',
   },

@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Button } from 'react-bootstrap';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
 import BigAdventureCard from '../../../components/cards/BigAdventureCard';
 import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
+import { BasicButton, HeaderContainer } from '../../../styles/commonStyles';
 
 // view single adventure form
 export default function ViewSinglePublicAdventure() {
@@ -24,9 +24,11 @@ export default function ViewSinglePublicAdventure() {
 
   return (
     <>
-      <Link href="/adventures/public/publicAdventures" passHref>
-        <Button variant="info">Public Adventures</Button>
-      </Link>
+      <HeaderContainer>
+        <Link href="/adventures/public/publicAdventures" passHref>
+          <BasicButton variant="info">Public Adventures</BasicButton>
+        </Link>
+      </HeaderContainer>
       <BigAdventureContainer>
         <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       </BigAdventureContainer>
@@ -44,6 +46,7 @@ const BigAdventureContainer = styled.div`
   height: 40%;
   display: flex;
   justify-content: center;
+  margin-top: 2%;
 `;
 
 const DiscoveriesContainer = styled.div`

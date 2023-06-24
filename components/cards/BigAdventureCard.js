@@ -56,12 +56,11 @@ export default function BigAdventureCard({ adventureObj }) {
           <Container>
             <TitleContainer>
               <Card.Title>{adventureObj.title}</Card.Title>
-              {adventureObj.uid !== user.uid && <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} />}
             </TitleContainer>
             <InfoContainer>Intesity: {adventureObj.intensity}</InfoContainer>
             <InfoContainer>Details: {adventureObj.details}</InfoContainer>
             <InfoContainer><Ratings obj={adventureObj} /></InfoContainer>
-            {adventureObj.uid !== user.uid ? '' : (
+            {adventureObj.uid !== user.uid ? <AddToExploreButton firebaseKey={adventureObj.firebaseKey} isDiscovery={false} /> : (
               <>
                 <Link href={`/adventures/personal/edit/${adventureObj.firebaseKey}`} passHref>
                   <BasicButton variant="info">EDIT</BasicButton>

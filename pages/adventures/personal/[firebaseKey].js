@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import BigAdventureCard from '../../../components/cards/BigAdventureCard';
 import { getSingleAdventure } from '../../../api/adventuresData';
 import { getDiscoveriesFromAdventure } from '../../../api/mergedData';
 import LittleDiscoveryCard from '../../../components/cards/LittleDiscoveryCard';
-import { BasicButton } from '../../../styles/commonStyles';
+import { BasicButton, HeaderContainer } from '../../../styles/commonStyles';
 
 // view single adventure form
 export default function ViewSingleAdventure() {
@@ -29,17 +28,19 @@ export default function ViewSingleAdventure() {
 
   return (
     <>
-      {adventure.toBeExplored !== true
-        ? (
-          <Link href="/adventures/personal/myAdventures" passHref>
-            <BasicButton variant="info">My Adventures</BasicButton>
-          </Link>
-        )
-        : (
-          <Link href="/toExplore/adventures" passHref>
-            <Button variant="info">Adventures To Explore</Button>
-          </Link>
-        )}
+      <HeaderContainer>
+        {adventure.toBeExplored !== true
+          ? (
+            <Link href="/adventures/personal/myAdventures" passHref>
+              <BasicButton variant="info">My Adventures</BasicButton>
+            </Link>
+          )
+          : (
+            <Link href="/toExplore/adventures" passHref>
+              <BasicButton variant="info">Adventures To Explore</BasicButton>
+            </Link>
+          )}
+      </HeaderContainer>
       <BigAdventureContainer>
         <BigAdventureCard key={firebaseKey} adventureObj={adventure} />
       </BigAdventureContainer>
@@ -57,6 +58,7 @@ const BigAdventureContainer = styled.div`
   height: 40%;
   display: flex;
   justify-content: center;
+  margin-top: 2%;
 `;
 
 const DiscoveriesContainer = styled.div`

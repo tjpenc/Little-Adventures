@@ -25,7 +25,7 @@ export default function NavBarAuth() {
         <>
           <LogoContainer>
             <Image src="/map.png" width="20px" height="20px" />
-            Little Adventures
+            <span style={{ marginLeft: '10px', paddingBottom: '5px' }}>Little Adventures</span>
             <button type="button" style={{ marginLeft: '20px' }} onClick={toggleNav}>Close</button>
           </LogoContainer>
           <LinksContainer>
@@ -51,9 +51,9 @@ export default function NavBarAuth() {
               </Link>
             </NewGroupContainer>
             <NewGroupContainer>
-              <Link href="/randomAdventure" passHref>
+              {/* <Link href="/randomAdventure" passHref>
                 <NavLink>Find an Adventure</NavLink>
-              </Link>
+              </Link> */}
               <Link href="/toExplore/toBeExplored" passHref>
                 <NavLink>My Explore Page</NavLink>
               </Link>
