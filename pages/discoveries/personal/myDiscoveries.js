@@ -33,7 +33,7 @@ export default function ViewDiscoveries() {
             <BasicButton>Add A Discovery!</BasicButton>
           </Link>
           <Link href="/discoveries/personal/myGoogleMap" passHref>
-            <BasicButton>To Maps</BasicButton>
+            <BasicButton>My Discovery Map</BasicButton>
           </Link>
         </TitleButtonsContainer>
       </HeaderContainer>

@@ -26,7 +26,7 @@ export default function CardImages({ obj }) {
       } else if (obj.type === 'Landmark') {
         image = <Card.Img variant="top" src="/landmark.png" alt={alt} style={{ height: '200px', objectFit: 'cover' }} />;
       } else if (obj.type === 'Cryptid') {
-        image = <Card.Img variant="top" src="/cryptid.png" alt={alt} style={{ height: '200px', objectFit: 'cover' }} />;
+        image = <Card.Img variant="top" src="/cryptid.png" alt={alt} style={{ height: '200px', objectFit: 'cover', borderRadius: '3px' }} />;
       }
     }
     setImageDiv(image);
@@ -40,7 +40,7 @@ export default function CardImages({ obj }) {
   return (
     <>
       {obj.imageUrl
-        ? <Card.Img variant="top" src={obj.imageUrl} alt={alt} style={{ height: '200px', objectFit: 'cover' }} />
+        ? <Card.Img variant="top" src={obj.imageUrl} alt={alt} style={{ height: '200px', objectFit: 'cover', borderRadius: '3px' }} />
         : imageDiv}
     </>
   );

@@ -30,11 +30,12 @@ const photoStorage = {
         .catch(reject);
     });
   },
-  delete(filepath) {
-    const storageRef = storage.ref();
-    const fileRef = storageRef.child(filepath);
-    fileRef.delete().then(() => {})
-      .catch((error) => console.warn(error));
+  delete() {
+    // put "filepath" as argument
+    // const storageRef = storage.ref();
+    // const fileRef = storageRef.child(filepath);
+    // fileRef.delete().then(() => {})
+    //   .catch((error) => console.warn(error));
   },
 };
 

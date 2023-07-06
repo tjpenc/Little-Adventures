@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
-import { Button } from 'react-bootstrap';
+// import Link from 'next/link';
 import { useAuth } from '../../utils/context/authContext';
 import { getUserDiscoveries } from '../../api/discoveriesData';
 import LittleDiscoveryCard from '../../components/cards/LittleDiscoveryCard';
+// import { BasicButton } from '../../styles/commonStyles';
 
 // view my discoveries
 export default function ViewDiscoveriesToExplore() {
@@ -24,9 +24,9 @@ export default function ViewDiscoveriesToExplore() {
     <>
       <HeaderContainer>
         <h1>Discoveries to Find</h1>
-        <Link href="/discoveries/personal/createDiscovery" passHref>
-          <Button variant="primary" className="m-2">Add A Discovery!</Button>
-        </Link>
+        {/* <Link href="/discoveries/personal/createDiscovery" passHref>
+          <BasicButton variant="primary" className="m-2">Add A Discovery!</BasicButton>
+        </Link> */}
       </HeaderContainer>
       <DiscoveriesContainer>
         {discoveries?.map((discovery) => (

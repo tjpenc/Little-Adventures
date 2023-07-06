@@ -65,8 +65,8 @@ const cloneDiscovery = (payload, user) => new Promise((resolve, reject) => {
         adventureId: 'none',
         timeSubmitted: Date().toString(),
         parentDiscoveryId: payload.firebaseKey,
-        filePath: '',
-        imageUrl: '',
+        filePath: payload.filePath,
+        imageUrl: payload.imageUrl,
       };
       axios.patch(`${dbUrl}/discoveries/${response.data.name}.json`, patchPayload)
         .then(resolve);
