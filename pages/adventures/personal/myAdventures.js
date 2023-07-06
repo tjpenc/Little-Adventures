@@ -87,8 +87,8 @@ export default function ViewMyAdventures() {
         <CardDiv>
           {adventures?.map((adventure) => (
             <>
-              <CardContainer>
-                <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} onUpdate={getAllUsersAdventures} />
+              <CardContainer key={adventure.firebaseKey}>
+                <LittleAdventureCard key={`${adventure.firebaseKey}1`} adventureObj={adventure} onUpdate={getAllUsersAdventures} />
               </CardContainer>
             </>
           ))}

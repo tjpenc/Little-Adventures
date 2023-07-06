@@ -53,8 +53,8 @@ export default function ViewPublicAdventures() {
         <CardDiv>
           {adventures?.map((adventure) => (
             <>
-              <CardContainer>
-                <LittleAdventureCard key={adventure.firebaseKey} adventureObj={adventure} onUpdate={getPublicAdventures} />
+              <CardContainer key={adventure.firebaseKey}>
+                <LittleAdventureCard key={`${adventure.firebaseKey}1`} adventureObj={adventure} onUpdate={getPublicAdventures} />
               </CardContainer>
             </>
           ))}

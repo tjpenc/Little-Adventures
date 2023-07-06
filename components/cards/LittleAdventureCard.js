@@ -120,6 +120,7 @@ const AdventureContainer = styled.div`
  height: 100%;
  cursor: pointer;
  border: solid black 3px;
+ border-radius: 5px;
 `;
 
 const Header = styled.div`
@@ -141,6 +142,7 @@ const Title = styled.div`
 const ImageContainer = styled.div`
  width: 100%;
  object-fit: cover;
+ border-radius: 5px;
 `;
 
 const Container = styled.div`
