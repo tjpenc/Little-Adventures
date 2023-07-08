@@ -15,10 +15,10 @@
 -Explore the discoveries and adventures other users have marked as public, and add them to your "To Explore Page"
 
 ## Screenshots
-![HomePage](images/Landing Page.png)
-![Adventures](images/adventures.png)
-![Discoveries](images/discoveries.png)
-![Map](images/Discoveries Map.png)
+![HomePage](utils/images/Landing%20Page.png)
+![Adventures](utils/images/adventures.png)
+![Discoveries](utils/images/discoveries.png)
+![Discoveries Map](utils/images/Discoveries%20Map.png)
 
 ## Wireframe
 [Figma Wireframe](https://www.figma.com/file/DrR6gfwz6qCoqjDQPSrXQX/Little-Adventures?type=design&node-id=0-1&mode=design&t=fsRmUjU0Q5gZWEPn-0)
