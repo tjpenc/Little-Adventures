@@ -1,6 +1,6 @@
 # Little Adventures
 ## Overview
-    This app was created to help users organize their adventures and findings on those adventures to keep track of where they have been and what they have discovered. As well, a user can share their findings in a public section, so others can see what else there is to explore. From a technical aspect, this project was created to demonstrate basic CRUD in a react app and become more comfortable with react hooks. Also, learning how to let users upload photos from their personal computers and integrate the Google Maps API were stretch goals. 
+This app was created to help users organize their adventures and findings on those adventures to keep track of where they have been and what they have discovered. As well, a user can share their findings in a public section, so others can see what else there is to explore. From a technical aspect, this project was created to demonstrate basic CRUD in a react app and become more comfortable with react hooks. Also, learning how to let users upload photos from their personal computers and integrate the Google Maps API were stretch goals. 
 
 ## Deploy
 [Netlify Link](https://littleadventures.netlify.app)
